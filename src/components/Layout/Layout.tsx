@@ -8,10 +8,10 @@ interface ILayout {
 function Layout({ children }: ILayout) {
     return (
         <Fragment>
-            <div className={classes.layoutContainer}>
+            <div className={classes.layoutTop}>
                 Toolbar, SideDrawer, BackDrop
             </div>
-            <main>{children}</main>
+            <main className={classes.layoutMain}>{children}</main>
         </Fragment>
     );
 }
