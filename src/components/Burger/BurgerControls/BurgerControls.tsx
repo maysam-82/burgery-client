@@ -8,12 +8,14 @@ interface IBurgerControlsProps {
     handleUpdateIngredients: (type: string, isAdded: boolean) => void;
     price: number;
     purchasable: boolean;
+    handleOrder: () => void;
 }
 
 function BurgerControls({
     handleUpdateIngredients,
     price,
     purchasable,
+    handleOrder,
 }: IBurgerControlsProps) {
     const renderControls = controls.map(({ id, label, type }) => (
         <BurgerControl
@@ -29,8 +31,12 @@ function BurgerControls({
                 Current Price: <strong>${price.toFixed(2)}</strong>
             </p>
             {renderControls}
-            <button className={classes.orderButton} disabled={!purchasable}>
-                ORDER NOW!
+            <button
+                className={classes.orderButton}
+                disabled={!purchasable}
+                onClick={handleOrder}
+            >
+                ORDER NOW! <i className="fas fa-hamburger"></i>
             </button>
         </div>
     );

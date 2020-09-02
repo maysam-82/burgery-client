@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Burger from '../../components/Burger';
-
 import { IIngredients } from '../../types/ingredients';
-
-import classes from './burgerBuilder.module.scss';
-import BurgerControls from '../../components/Burger/BurgerControls/BurgerControls';
+import BurgerControls from '../../components/Burger/BurgerControls';
 import { ingredientsPrices } from '../../fixtures/ingredients';
 import { getIngredients } from '../../components/utils/burger';
+import Modal from '../../components/Modal';
+import OrderSummary from '../../components/OrderSummary/OrderSummary';
+
+import classes from './burgerBuilder.module.scss';
 
 interface IBurgerBuilderState {
     ingredients: IIngredients;
     totalPrice: number;
     purchasable: boolean;
+    isOrdered: boolean;
 }
 
 class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
@@ -26,6 +28,7 @@ class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
             },
             totalPrice: 4,
             purchasable: false,
+            isOrdered: false,
         };
     }
 
@@ -66,17 +69,27 @@ class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
         }
     };
 
+    handleOrder = () => {
+        this.setState({ isOrdered: true });
+    };
+
     render() {
-        const { ingredients, totalPrice, purchasable } = this.state;
+        const { ingredients, totalPrice, purchasable, isOrdered } = this.state;
         return (
-            <div className={classes.burgerBuilderContainer}>
-                <Burger ingredients={ingredients} />
-                <BurgerControls
-                    handleUpdateIngredients={this.handleUpdateIngredients}
-                    price={totalPrice}
-                    purchasable={purchasable}
-                />
-            </div>
+            <Fragment>
+                <Modal isShown={isOrdered}>
+                    <OrderSummary ingredients={ingredients} />
+                </Modal>
+                <div className={classes.burgerBuilderContainer}>
+                    <Burger ingredients={ingredients} />
+                    <BurgerControls
+                        handleUpdateIngredients={this.handleUpdateIngredients}
+                        price={totalPrice}
+                        purchasable={purchasable}
+                        handleOrder={this.handleOrder}
+                    />
+                </div>
+            </Fragment>
         );
     }
 }
