@@ -73,11 +73,18 @@ class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
         this.setState({ isOrdered: true });
     };
 
+    handleCancelPurchase = () => {
+        this.setState({ isOrdered: false });
+    };
+
     render() {
         const { ingredients, totalPrice, purchasable, isOrdered } = this.state;
         return (
             <Fragment>
-                <Modal isShown={isOrdered}>
+                <Modal
+                    isShown={isOrdered}
+                    handleModalClose={this.handleCancelPurchase}
+                >
                     <OrderSummary ingredients={ingredients} />
                 </Modal>
                 <div className={classes.burgerBuilderContainer}>
