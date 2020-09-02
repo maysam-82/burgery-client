@@ -12,10 +12,20 @@ interface IBurgerProps {
 
 function Burger({ ingredients }: IBurgerProps) {
     const mappedIngredients = getIngredients(ingredients);
-
-    const renderIngredients = mappedIngredients.map((ingredient, index) => (
-        <BurgerIngredient type={ingredient} key={`${ingredient}${index}`} />
-    ));
+    console.log(mappedIngredients);
+    const renderIngredients =
+        mappedIngredients.length > 0 ? (
+            mappedIngredients.map((ingredient, index) => (
+                <BurgerIngredient
+                    type={ingredient}
+                    key={`${ingredient}${index}`}
+                />
+            ))
+        ) : (
+            <p className={classes.noIngredients}>
+                Please Start Adding Ingredients
+            </p>
+        );
 
     return (
         <div className={classes.burgerContainer}>
