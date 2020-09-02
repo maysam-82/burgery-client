@@ -1,0 +1,33 @@
+.burgerContainer {
+    width: 100%;
+    margin: auto;
+    height: 15.625rem;
+    overflow-y: scroll;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.25rem;
+    .noIngredients {
+        font-size: 0.875rem;
+    }
+}
+
+@media (min-width: 350px) and (min-height: 401px) {
+    .burgerContainer {
+        width: 25rem;
+        height: 25rem;
+    }
+}
+
+@media (min-width: 350px) and (min-height: 400px) {
+    .burgerContainer {
+        width: 21.5rem;
+        height: 18.5rem;
+    }
+}
+
+@media (min-width: 1000px) and (min-height: 700px) {
+    .burgerContainer {
+        width: 43rem;
+        height: 37.5rem;
+    }
+}

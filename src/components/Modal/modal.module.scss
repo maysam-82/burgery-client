@@ -1,0 +1,30 @@
+@import '../../styles/variables.scss';
+
+.modalContainer {
+    position: fixed;
+    z-index: 500;
+    background-color: $white;
+    width: 70%;
+    border: $border;
+    box-shadow: $box-shadow;
+    padding: 1rem;
+    left: 15%;
+    top: 30%;
+    transition: all 0.3s ease-out;
+}
+
+.modalShow {
+    transform: translateY(0);
+    opacity: 1;
+}
+.modalHide {
+    transform: translateY(-100vh);
+    opacity: 0;
+}
+
+@media (min-width: 600px) {
+    .modalContainer {
+        width: 31.25rem;
+        left: calc(50% - 15.625rem);
+    }
+}

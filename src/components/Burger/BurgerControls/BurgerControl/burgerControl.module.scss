@@ -1,0 +1,31 @@
+@import '../../../../styles/variables.scss';
+
+.burgerControlContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.3125rem;
+    width: 15rem;
+    button {
+        display: block;
+        padding: 0.3125rem;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        width: calc(25% - 0.625rem);
+        min-height: 3rem;
+        font-size: 1.5rem;
+        i {
+            color: $white;
+        }
+    }
+    .label {
+        width: 50%;
+    }
+    .less {
+        background-color: $grey;
+    }
+    .more {
+        background-color: $primary;
+    }
+}
