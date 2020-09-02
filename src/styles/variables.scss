@@ -25,3 +25,7 @@ $cheese: linear-gradient(#f4d004, #d6bb22);
 $bacon: linear-gradient(#bf3813, #c45e38);
 
 $border: 0.0625rem solid $secondary;
+
+$box-shadow: 0 0.1875rem 0.3125rem -0.0625rem rgba(0, 0, 0, 0.2),
+    0 0.375rem 0.625rem 0 rgba(0, 0, 0, 0.14),
+    0 0.0625rem 1.125rem 0 rgba(0, 0, 0, 0.12);

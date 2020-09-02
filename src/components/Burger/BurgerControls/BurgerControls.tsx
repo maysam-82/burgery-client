@@ -7,11 +7,13 @@ import classes from './burgerControls.module.scss';
 interface IBurgerControlsProps {
     handleUpdateIngredients: (type: string, isAdded: boolean) => void;
     price: number;
+    purchasable: boolean;
 }
 
 function BurgerControls({
     handleUpdateIngredients,
     price,
+    purchasable,
 }: IBurgerControlsProps) {
     const renderControls = controls.map(({ id, label, type }) => (
         <BurgerControl
@@ -27,6 +29,9 @@ function BurgerControls({
                 Current Price: <strong>${price.toFixed(2)}</strong>
             </p>
             {renderControls}
+            <button className={classes.orderButton} disabled={!purchasable}>
+                ORDER NOW!
+            </button>
         </div>
     );
 }

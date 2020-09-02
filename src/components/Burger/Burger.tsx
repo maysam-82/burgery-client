@@ -2,9 +2,9 @@ import React from 'react';
 import BurgerIngredient from './BurgerIngredient';
 import { ingredientTypes } from '../../fixtures/ingredients';
 import { IIngredients } from '../../types/ingredients';
+import { getIngredients } from '../utils/burger';
 
 import classes from './burger.module.scss';
-import { getIngredients } from './helper';
 
 interface IBurgerProps {
     ingredients: IIngredients;
