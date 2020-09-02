@@ -8,10 +8,7 @@ interface IButtonProps {
 }
 
 function Button({ children, handleClick, type }: IButtonProps) {
-    const buttonClass = [
-        classes.button,
-        type === 'success' ? classes.success : classes.danger,
-    ];
+    const buttonClass = [classes.button, classes[type]];
 
     return (
         <button onClick={handleClick} className={buttonClass.join(' ')}>

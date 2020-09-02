@@ -85,7 +85,11 @@ class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
                     isShown={isOrdered}
                     handleModalClose={this.handleCancelPurchase}
                 >
-                    <OrderSummary ingredients={ingredients} />
+                    <OrderSummary
+                        ingredients={ingredients}
+                        handleCancel={this.handleCancelPurchase}
+                        price={totalPrice}
+                    />
                 </Modal>
                 <div className={classes.burgerBuilderContainer}>
                     <Burger ingredients={ingredients} />
