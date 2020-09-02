@@ -1,18 +1,17 @@
 import React from 'react';
 import BurgerIngredient from './BurgerIngredient';
 import { ingredientTypes } from '../../fixtures/ingredients';
-import { Iingredients } from '../../types/ingredients';
+import { IIngredients } from '../../types/ingredients';
 
 import classes from './burger.module.scss';
 import { getIngredients } from './helper';
 
 interface IBurgerProps {
-    ingredients: Iingredients;
+    ingredients: IIngredients;
 }
 
 function Burger({ ingredients }: IBurgerProps) {
     const mappedIngredients = getIngredients(ingredients);
-    console.log(mappedIngredients);
     const renderIngredients =
         mappedIngredients.length > 0 ? (
             mappedIngredients.map((ingredient, index) => (

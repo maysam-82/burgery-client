@@ -1,6 +1,6 @@
-import { Iingredients } from '../../types/ingredients';
+import { IIngredients } from '../../types/ingredients';
 
-export const getIngredients = (ingredients: Iingredients): string[] => {
+export const getIngredients = (ingredients: IIngredients): string[] => {
     let transformedIngredients: string[] = [];
     for (const ingredientKey in ingredients) {
         for (let index = 0; index < ingredients[ingredientKey]; index++) {

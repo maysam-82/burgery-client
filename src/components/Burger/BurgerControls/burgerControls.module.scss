@@ -1,0 +1,15 @@
+@import '../../../styles/variables.scss';
+
+.burgerControlsContainer {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    box-shadow: 0 0.125rem 0.0625rem $grey;
+    margin: auto;
+    padding: 0.625rem 0;
+    .price {
+        border: $border;
+        padding: 0.625rem;
+    }
+}
