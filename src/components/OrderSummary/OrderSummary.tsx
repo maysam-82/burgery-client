@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { IIngredients } from '../../types/ingredients';
 import classes from './orderSummary.module.scss';
-import Button from '../Button/Button';
+import Button from '../Button';
 
 interface IOrderSummaryProps {
     ingredients: IIngredients;
@@ -35,7 +35,7 @@ function OrderSummary({
             <p className={classes.price}>Total Price: ${price.toFixed(2)}</p>
             <p className={classes.question}>Checkout ?</p>
             <div className={classes.buttonContainer}>
-                <Button type="danger" handleClick={handleCancel}>
+                <Button type="cancel" handleClick={handleCancel}>
                     CANCEL <i className="fas fa-strikethrough"></i>
                 </Button>
                 <Button

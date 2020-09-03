@@ -16,7 +16,7 @@ function Modal({ children, isShown, handleModalClose }: IModalProps) {
     return (
         <Fragment>
             <Backdrop isShown={isShown} handleClose={handleModalClose} />
-            <div className={modalClass.join(' ')}>{children}</div>;
+            <div className={modalClass.join(' ')}>{children}</div>
         </Fragment>
     );
 }

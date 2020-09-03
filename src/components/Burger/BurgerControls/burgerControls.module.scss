@@ -14,7 +14,7 @@
     }
 
     .orderButton {
-        background-color: $primary;
+        background-color: $primary-dark;
         outline: none;
         cursor: pointer;
         border: none;
@@ -28,7 +28,7 @@
 
     .orderButton:hover,
     .orderButton:active {
-        background-color: $secondary;
+        background-color: $secondary-dark;
         border: none;
         color: $black;
     }
