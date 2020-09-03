@@ -38,7 +38,6 @@ const WithErrorHandler = <P extends object>(
 
         render() {
             const { error } = this.state;
-            console.log(!!error);
             return (
                 <Fragment>
                     <Modal
