@@ -1,8 +1,12 @@
 // Colors
 $primary: #b50000;
+$primary-dark: #7e0000;
+$primary-light: #ef4a2d;
 $secondary: #00b5b5;
+$secondary-dark: #008585;
+$secondary-light: #5de8e7;
 $black: #222;
-$grey: #ccc;
+$grey: #888;
 $white: #fff;
 
 $danger: #7e0000;
@@ -34,3 +38,9 @@ $box-shadow: 0 0.1875rem 0.3125rem -0.0625rem rgba(0, 0, 0, 0.2),
     0 0.0625rem 1.125rem 0 rgba(0, 0, 0, 0.12);
 
 $back-drop-color: rgba(0, 0, 0, 0.5);
+
+$toolbar-height: 3.5rem;
+
+$side-drawer-width: 18rem;
+
+$border-nav: 0.0625rem solid $primary;

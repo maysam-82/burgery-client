@@ -1,0 +1,42 @@
+@import '../../../styles/variables.scss';
+
+.sideDrawerContainer {
+    position: fixed;
+    width: $side-drawer-width;
+    max-width: 80%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    background-color: $white;
+    padding: 2rem 0;
+    transition: transform 0.3s ease-out;
+    .logoContainer {
+        color: $primary;
+        padding: 0 0.625rem;
+        padding-bottom: 1.5rem;
+        border-bottom: $border-nav;
+        div {
+            display: inline-block;
+        }
+        .logoTitle {
+            font-size: 1rem;
+            color: $primary;
+            font-weight: bold;
+            padding-left: 0.625rem;
+        }
+    }
+}
+
+.sideDrawerOpen {
+    transform: translateX(0);
+}
+.sideDrawerClose {
+    transform: translateX(-100%);
+}
+
+@media (min-width: 500px) {
+    .sideDrawerContainer {
+        display: none;
+    }
+}

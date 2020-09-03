@@ -1,0 +1,46 @@
+@import '../../../styles/variables.scss';
+
+.toolbarContainer {
+    height: $toolbar-height;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: $primary;
+    display: flex;
+    color: $white;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.625rem;
+    padding-left: 0;
+    z-index: 90;
+    nav {
+        height: 100%;
+    }
+    .menuContainer {
+        display: none;
+    }
+    .toolbarLogoContainer {
+        padding-left: 0.625rem;
+    }
+}
+
+@media (max-width: 499px) {
+    .navDesktop {
+        display: none;
+    }
+    .toolbarContainer {
+        .menuContainer {
+            color: $white;
+            font-size: 2rem;
+            padding: 0 0.625rem;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .toolbarLogoContainer {
+            padding-left: 0;
+        }
+    }
+}
