@@ -6,6 +6,7 @@ import Button from '../Button';
 interface IOrderSummaryProps {
     ingredients: IIngredients;
     handleCancel: () => void;
+    handleContinue: () => void;
     price: number;
 }
 
@@ -13,6 +14,7 @@ function OrderSummary({
     price,
     ingredients,
     handleCancel,
+    handleContinue,
 }: IOrderSummaryProps) {
     const renderIngredientSummary = () => {
         const ingredientSummary = [];
@@ -38,10 +40,7 @@ function OrderSummary({
                 <Button type="cancel" handleClick={handleCancel}>
                     CANCEL <i className="fas fa-strikethrough"></i>
                 </Button>
-                <Button
-                    type="success"
-                    handleClick={() => console.log('continue')}
-                >
+                <Button type="success" handleClick={handleContinue}>
                     CONTINUE <i className="fas fa-box-open"></i>
                 </Button>
             </div>
