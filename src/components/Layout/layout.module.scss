@@ -1,6 +1,4 @@
-.layoutTop {
-    width: 100%;
-}
+@import '../../styles/variables.scss';
 .layoutMain {
-    margin-top: 1rem;
+    margin-top: $toolbar-height + 1rem;
 }

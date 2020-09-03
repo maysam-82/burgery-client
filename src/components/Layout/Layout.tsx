@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import classes from './layout.module.scss';
+import Toolbar from '../Navigation/Toolbar/Toolbar';
 
 interface ILayout {
     children: React.ReactNode;
@@ -8,9 +9,7 @@ interface ILayout {
 function Layout({ children }: ILayout) {
     return (
         <Fragment>
-            <div className={classes.layoutTop}>
-                Toolbar, SideDrawer, BackDrop
-            </div>
+            <Toolbar />
             <main className={classes.layoutMain}>{children}</main>
         </Fragment>
     );
