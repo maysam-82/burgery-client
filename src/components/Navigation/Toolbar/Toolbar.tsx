@@ -4,10 +4,16 @@ import NavigationItems from '../NavigationItems';
 import Logo from '../../Logo';
 import classes from './toolbar.module.scss';
 
-function Toolbar() {
+interface IToolbarProps {
+    onMenuClick: () => void;
+}
+
+function Toolbar({ onMenuClick }: IToolbarProps) {
     return (
         <header className={classes.toolbarContainer}>
-            <div>MENU</div>
+            <div className={classes.menuContainer} onClick={onMenuClick}>
+                <i className="fas fa-bars"></i>
+            </div>
             <Logo />
             <nav className={classes.navDesktop}>
                 <NavigationItems />

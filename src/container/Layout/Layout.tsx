@@ -24,11 +24,15 @@ class Layout extends Component<ILayoutProps, ILayoutState> {
         this.setState({ isDrawerShown: false });
     };
 
+    handleSideDrawerOpen = () => {
+        this.setState({ isDrawerShown: true });
+    };
+
     render() {
         const { isDrawerShown } = this.state;
         return (
             <Fragment>
-                <Toolbar />
+                <Toolbar onMenuClick={this.handleSideDrawerOpen} />
                 <SideDrawer
                     onCloseDrawer={this.handleSideDrawerClose}
                     isDrawerShown={isDrawerShown}
