@@ -14,7 +14,9 @@ function Toolbar({ onMenuClick }: IToolbarProps) {
             <div className={classes.menuContainer} onClick={onMenuClick}>
                 <i className="fas fa-bars"></i>
             </div>
-            <Logo />
+            <div className={classes.toolbarLogoContainer}>
+                <Logo />
+            </div>
             <nav className={classes.navDesktop}>
                 <NavigationItems />
             </nav>

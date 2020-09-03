@@ -16,7 +16,7 @@ class Layout extends Component<ILayoutProps, ILayoutState> {
         super(props);
 
         this.state = {
-            isDrawerShown: true,
+            isDrawerShown: false,
         };
     }
 
