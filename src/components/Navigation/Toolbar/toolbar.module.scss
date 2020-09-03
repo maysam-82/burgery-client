@@ -1,6 +1,6 @@
 @import '../../../styles/variables.scss';
 
-.toobalContainer {
+.toolbarContainer {
     height: $toolbar-height;
     width: 100%;
     position: fixed;
@@ -11,12 +11,15 @@
     color: $white;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1.25rem;
+    padding: 0 0.625rem;
     z-index: 90;
     nav {
         height: 100%;
     }
-    .toolbarLogo {
-        font-size: 2rem;
+}
+
+@media (max-width: 499px) {
+    .navDesktop {
+        display: none;
     }
 }

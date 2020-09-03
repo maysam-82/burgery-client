@@ -1,16 +1,15 @@
 import React from 'react';
 
+import NavigationItems from '../NavigationItems';
+import Logo from '../../Logo';
 import classes from './toolbar.module.scss';
-import NavigationItems from '../NavigationItems/NavigationItems';
 
 function Toolbar() {
     return (
-        <header className={classes.toobalContainer}>
+        <header className={classes.toolbarContainer}>
             <div>MENU</div>
-            <div className={classes.toolbarLogo}>
-                <i className="fas fa-hamburger"></i>
-            </div>
-            <nav>
+            <Logo />
+            <nav className={classes.navDesktop}>
                 <NavigationItems />
             </nav>
         </header>
