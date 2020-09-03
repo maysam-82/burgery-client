@@ -3,12 +3,12 @@ import classes from './backdrop.module.scss';
 
 interface IBackdropProps {
     isShown: boolean;
-    handleClose: () => void;
+    handleClick: () => void;
 }
 
-function Backdrop({ isShown, handleClose }: IBackdropProps) {
+function Backdrop({ isShown, handleClick }: IBackdropProps) {
     return isShown ? (
-        <div className={classes.backdropContainer} onClick={handleClose}></div>
+        <div className={classes.backdropContainer} onClick={handleClick}></div>
     ) : null;
 }
 
