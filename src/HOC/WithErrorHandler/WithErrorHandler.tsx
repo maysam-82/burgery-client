@@ -1,56 +1,43 @@
-import React, { Fragment, Component } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Modal from '../../components/Modal/Modal';
 import { AxiosInstance } from 'axios';
 
-interface IWithErrorHandlerState {
-    error: { [key: string]: string } | null;
-}
-
-const WithErrorHandler = <P extends object>(
+// Changing name of function to lowercase to do not allow react wrongly throw
+// error for calling useState, useEffects inside callback. With capital letter
+// React assumes that we are going to return a callback with Hooks inside a Component.
+const withErrorHandler = <P extends object>(
     WrappedComponent: React.ComponentType<P>,
     axios: AxiosInstance
-) => {
-    return class _ extends Component<P, IWithErrorHandlerState> {
-        constructor(props: P) {
-            super(props);
+) => (props: P) => {
+    const [error, setError] = useState<{ [key: string]: string } | null>(null);
 
-            this.state = {
-                error: null,
-            };
+    const requestInterceptor = axios.interceptors.request.use((request) => {
+        setError(null);
+        return request;
+    });
+
+    const responseInterceptor = axios.interceptors.response.use(
+        (response) => response,
+        (err) => {
+            setError(err);
         }
+    );
 
-        componentDidMount() {
-            axios.interceptors.request.use((request) => {
-                this.setState({ error: null });
-                return request;
-            });
-            axios.interceptors.response.use(
-                (response) => response,
-                (error) => {
-                    this.setState({ error });
-                }
-            );
-        }
-
-        handleCloseModal = () => {
-            this.setState({ error: null });
+    useEffect(() => {
+        return () => {
+            axios.interceptors.request.eject(requestInterceptor);
+            axios.interceptors.response.eject(responseInterceptor);
         };
+    }, [requestInterceptor, responseInterceptor]);
 
-        render() {
-            const { error } = this.state;
-            return (
-                <Fragment>
-                    <Modal
-                        isShown={!!error}
-                        handleModalClose={this.handleCloseModal}
-                    >
-                        {error ? error.message : null}
-                    </Modal>
-                    <WrappedComponent {...(this.props as P)} />
-                </Fragment>
-            );
-        }
-    };
+    return (
+        <Fragment>
+            <Modal isShown={!!error} handleModalClose={() => setError(null)}>
+                {error ? error.message : null}
+            </Modal>
+            <WrappedComponent {...(props as P)} />
+        </Fragment>
+    );
 };
 
-export default WithErrorHandler;
+export default withErrorHandler;

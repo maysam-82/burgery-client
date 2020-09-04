@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import axios from '../../services/api/axios-orders';
+import axios, { getData } from '../../services/api/axios';
 import Burger from '../../components/Burger';
 import { IIngredients } from '../../types/ingredients';
 import BurgerControls from '../../components/Burger/BurgerControls';
@@ -13,7 +13,7 @@ import WithErrorHandler from '../../HOC/WithErrorHandler';
 import classes from './burgerBuilder.module.scss';
 
 interface IBurgerBuilderState {
-    ingredients: IIngredients;
+    ingredients: IIngredients | null;
     totalPrice: number;
     purchasable: boolean;
     isOrdered: boolean;
@@ -24,12 +24,7 @@ class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
     constructor(props: {}) {
         super(props);
         this.state = {
-            ingredients: {
-                salad: 0,
-                bacon: 0,
-                cheese: 0,
-                meat: 0,
-            },
+            ingredients: null,
             totalPrice: 4,
             purchasable: false,
             isOrdered: false,
@@ -37,19 +32,32 @@ class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
         };
     }
 
+    componentDidMount() {
+        getData<IIngredients>('/ingredients.json').then((data) =>
+            this.setState({
+                ingredients: { ...this.state.ingredients, ...data },
+            })
+        );
+    }
+
     checkPurchasable() {
-        this.setState({
-            purchasable: getIngredients(this.state.ingredients).length > 0,
-        });
+        const { ingredients } = this.state || null;
+        if (ingredients) {
+            this.setState({
+                purchasable: getIngredients(ingredients).length > 0,
+            });
+        }
     }
 
     handleUpdateIngredients = (type: string, isAdded: boolean) => {
+        const { ingredients } = this.state || null;
+        if (!ingredients) return;
         if (isAdded) {
             this.setState(
                 {
                     ingredients: {
-                        ...this.state.ingredients,
-                        [type]: this.state.ingredients[type] + 1,
+                        ...ingredients,
+                        [type]: ingredients[type] + 1,
                     },
                     totalPrice: this.state.totalPrice + ingredientsPrices[type],
                 },
@@ -58,12 +66,12 @@ class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
                 }
             );
         } else {
-            if (this.state.ingredients[type] <= 0) return;
+            if (ingredients[type] <= 0) return;
             this.setState(
                 {
                     ingredients: {
-                        ...this.state.ingredients,
-                        [type]: this.state.ingredients[type] - 1,
+                        ...ingredients,
+                        [type]: ingredients[type] - 1,
                     },
                     totalPrice: this.state.totalPrice - ingredientsPrices[type],
                 },
@@ -117,16 +125,32 @@ class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
             isOrdered,
             isLoading,
         } = this.state;
-        const renderOrderSummary = isLoading ? (
-            <Spinner />
-        ) : (
-            <OrderSummary
-                ingredients={ingredients}
-                handleCancel={this.handleCancelPurchase}
-                handleContinue={this.handlePurchaseContinue}
-                price={totalPrice}
-            />
-        );
+
+        const renderOrderSummary =
+            isLoading || !ingredients ? (
+                <Spinner />
+            ) : (
+                <OrderSummary
+                    ingredients={ingredients}
+                    handleCancel={this.handleCancelPurchase}
+                    handleContinue={this.handlePurchaseContinue}
+                    price={totalPrice}
+                />
+            );
+        const renderBurger =
+            isLoading || !ingredients ? (
+                <Spinner />
+            ) : (
+                <Fragment>
+                    <Burger ingredients={ingredients} />
+                    <BurgerControls
+                        handleUpdateIngredients={this.handleUpdateIngredients}
+                        price={totalPrice}
+                        purchasable={purchasable}
+                        handleOrder={this.handleOrder}
+                    />
+                </Fragment>
+            );
         return (
             <Fragment>
                 <Modal
@@ -136,17 +160,11 @@ class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
                     {renderOrderSummary}
                 </Modal>
                 <div className={classes.burgerBuilderContainer}>
-                    <Burger ingredients={ingredients} />
-                    <BurgerControls
-                        handleUpdateIngredients={this.handleUpdateIngredients}
-                        price={totalPrice}
-                        purchasable={purchasable}
-                        handleOrder={this.handleOrder}
-                    />
+                    {renderBurger}
                 </div>
             </Fragment>
         );
     }
 }
 
-export default WithErrorHandler(BurgerBuilder, axios);
+export default WithErrorHandler<{}>(BurgerBuilder, axios);
