@@ -7,9 +7,15 @@ import classes from './checkoutSummary.module.scss';
 
 interface ICheckoutSummaryProps {
     ingredients: IIngredients;
+    handleCheckoutCancel: () => void;
+    handleCheckoutContinue: () => void;
 }
 
-function CheckoutSummary({ ingredients }: ICheckoutSummaryProps) {
+function CheckoutSummary({
+    ingredients,
+    handleCheckoutCancel,
+    handleCheckoutContinue,
+}: ICheckoutSummaryProps) {
     return (
         <div className={classes.checkoutSummaryContainer}>
             <h1> Hope it tastes well!</h1>
@@ -17,10 +23,10 @@ function CheckoutSummary({ ingredients }: ICheckoutSummaryProps) {
                 <Burger ingredients={ingredients} />
             </div>
             <div className={classes.buttonContainer}>
-                <Button type="cancel" handleClick={() => {}}>
+                <Button type="cancel" handleClick={handleCheckoutCancel}>
                     CANCEL
                 </Button>
-                <Button type="danger" handleClick={() => {}}>
+                <Button type="danger" handleClick={handleCheckoutContinue}>
                     CONTINUE
                 </Button>
             </div>

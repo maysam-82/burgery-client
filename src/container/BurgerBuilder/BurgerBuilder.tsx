@@ -11,6 +11,7 @@ import Spinner from '../../components/Spinner';
 import WithErrorHandler from '../../HOC/WithErrorHandler';
 
 import classes from './burgerBuilder.module.scss';
+import { RouteComponentProps } from 'react-router-dom';
 
 interface IBurgerBuilderState {
     ingredients: IIngredients | null;
@@ -20,8 +21,13 @@ interface IBurgerBuilderState {
     isLoading: boolean;
 }
 
-class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
-    constructor(props: {}) {
+interface IBurgerBuilderProps {}
+
+class BurgerBuilder extends Component<
+    IBurgerBuilderProps & RouteComponentProps,
+    IBurgerBuilderState
+> {
+    constructor(props: IBurgerBuilderProps & RouteComponentProps) {
         super(props);
         this.state = {
             ingredients: null,
@@ -91,32 +97,34 @@ class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
     };
 
     handlePurchaseContinue = () => {
-        const { ingredients, totalPrice } = this.state;
-        this.setState({ isLoading: true });
-        const order = {
-            ingredients,
-            totalPrice,
-            customer: {
-                name: 'test',
-                address: {
-                    street: 'test street',
-                    zipCode: 'xxxxxx',
-                    city: 'test city',
-                },
-                email: 'sample@sample.com',
-            },
-            deliveryMethod: 'fastest',
-            comments: 'without tomato',
-        };
-        axios
-            .post('/orders.json', order)
-            .then((response) =>
-                this.setState({ isLoading: false, isOrdered: false })
-            )
-            .catch((error) =>
-                this.setState({ isLoading: false, isOrdered: false })
-            );
+        // const { ingredients, totalPrice } = this.state;
+        // this.setState({ isLoading: true });
+        // const order = {
+        //     ingredients,
+        //     totalPrice,
+        //     customer: {
+        //         name: 'test',
+        //         address: {
+        //             street: 'test street',
+        //             zipCode: 'xxxxxx',
+        //             city: 'test city',
+        //         },
+        //         email: 'sample@sample.com',
+        //     },
+        //     deliveryMethod: 'fastest',
+        //     comments: 'without tomato',
+        // };
+        // axios
+        //     .post('/orders.json', order)
+        //     .then((response) =>
+        //         this.setState({ isLoading: false, isOrdered: false })
+        //     )
+        //     .catch((error) =>
+        //         this.setState({ isLoading: false, isOrdered: false })
+        //     );
+        this.props.history.push('/checkout');
     };
+
     render() {
         const {
             ingredients,
@@ -167,4 +175,7 @@ class BurgerBuilder extends Component<{}, IBurgerBuilderState> {
     }
 }
 
-export default WithErrorHandler<{}>(BurgerBuilder, axios);
+export default WithErrorHandler<IBurgerBuilderProps & RouteComponentProps>(
+    BurgerBuilder,
+    axios
+);
