@@ -16,4 +16,5 @@ export interface IOrders {
     customer: ICustomer;
     deliveryMethod: string;
     comments: string;
+    id?: string;
 }

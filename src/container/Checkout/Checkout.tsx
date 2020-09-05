@@ -5,7 +5,7 @@ import ContactData from '../ContactData';
 import { IIngredients } from '../../types/ingredients';
 import { getQueryParams } from '../../utils/burger';
 
-import classes from './checkout.module.scss';
+// import classes from './checkout.module.scss';
 
 interface ICheckoutState {
     ingredients: IIngredients;
