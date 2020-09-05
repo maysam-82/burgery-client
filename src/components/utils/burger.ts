@@ -11,13 +11,17 @@ export const getIngredients = (ingredients: IIngredients): string[] => {
 };
 
 // converts ingredients to queryString to pass as query params
-export const setQueryString = (ingredients: IIngredients) => {
+export const setQueryString = (
+    ingredients: IIngredients,
+    totalPrice: number
+) => {
     const queryParams = [];
     for (const key in ingredients) {
         queryParams.push(
             encodeURIComponent(key) + '=' + encodeURIComponent(ingredients[key])
         );
     }
+    queryParams.push(`totalPrice=${totalPrice}`);
     return queryParams.join('&');
 };
 
@@ -30,9 +34,14 @@ export const getQueryParams = (searchString: string) => {
         cheese: 0,
         meat: 0,
     };
+    let totalPrice = 0;
     for (const param of query.entries()) {
-        // ['salad','1']
-        ingredients = { ...ingredients, [param[0]]: +param[1] };
+        if (param[0] === 'totalPrice') {
+            totalPrice = +param[1];
+        } else {
+            // ['salad','1']
+            ingredients = { ...ingredients, [param[0]]: +param[1] };
+        }
     }
-    return ingredients;
+    return { ingredients, totalPrice };
 };

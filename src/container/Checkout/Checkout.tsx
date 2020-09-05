@@ -9,6 +9,7 @@ import classes from './checkout.module.scss';
 
 interface ICheckoutState {
     ingredients: IIngredients;
+    totalPrice: number;
 }
 
 interface ICheckoutProps {}
@@ -27,13 +28,17 @@ class Checkout extends Component<
                 cheese: 0,
                 meat: 0,
             },
+            totalPrice: 0,
         };
     }
 
     componentDidMount() {
-        const ingredients = getQueryParams(this.props.location.search);
+        const { ingredients, totalPrice } = getQueryParams(
+            this.props.location.search
+        );
         this.setState({
             ingredients: { ...this.state.ingredients, ...ingredients },
+            totalPrice,
         });
     }
 
@@ -48,6 +53,7 @@ class Checkout extends Component<
     };
 
     render() {
+        const { ingredients, totalPrice } = this.state;
         return (
             <div>
                 <CheckoutSummary
@@ -57,7 +63,13 @@ class Checkout extends Component<
                 />
                 <Route
                     path={`${this.props.match.path}/contact-data`}
-                    component={ContactData}
+                    render={(props) => (
+                        <ContactData
+                            ingredients={ingredients}
+                            totalPrice={totalPrice}
+                            {...props}
+                        />
+                    )}
                 />
             </div>
         );
