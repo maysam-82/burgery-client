@@ -3,8 +3,10 @@ import classes from './button.module.scss';
 
 interface IButtonProps {
     children: React.ReactNode;
-    handleClick: () => void;
-    type: string;
+    handleClick: (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => void;
+    type: 'danger' | 'success' | 'cancel';
 }
 
 function Button({ children, handleClick, type }: IButtonProps) {

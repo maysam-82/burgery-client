@@ -1,19 +1,19 @@
 import React from 'react';
 
 import classes from './navigationItem.module.scss';
+import { NavLink } from 'react-router-dom';
 
 interface INavigationItemProps {
     children: React.ReactNode;
     route: string;
-    isActive?: boolean;
 }
 
-function NavigationItem({ children, route, isActive }: INavigationItemProps) {
+function NavigationItem({ children, route }: INavigationItemProps) {
     return (
         <li className={classes.navigationItemContainer}>
-            <a href={route} className={isActive ? classes.active : ''}>
+            <NavLink to={route} exact activeClassName={classes.active}>
                 {children}
-            </a>
+            </NavLink>
         </li>
     );
 }

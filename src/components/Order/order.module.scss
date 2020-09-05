@@ -1,0 +1,16 @@
+@import '../../styles/variables.scss';
+
+.orderContainer {
+    width: calc(100% - 1.25rem);
+    border: $border;
+    box-shadow: $box-shadow;
+    padding: 0.625rem;
+    margin: 0.625rem;
+    .ingredientContainer {
+        text-transform: capitalize;
+        display: inline-block;
+        margin: 0 0.5rem;
+        border: $border;
+        padding: 0.5rem;
+    }
+}
