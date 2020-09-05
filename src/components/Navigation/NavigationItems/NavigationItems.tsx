@@ -6,10 +6,8 @@ import NavigationItem from './NavigationItem';
 function NavigationItems() {
     return (
         <ul className={classes.navigationItemsContainer}>
-            <NavigationItem route="/" isActive>
-                Burgery Home
-            </NavigationItem>
-            <NavigationItem route="/checkout">Checkout</NavigationItem>
+            <NavigationItem route="/">Burgery Home</NavigationItem>
+            <NavigationItem route="/orders">Orders</NavigationItem>
         </ul>
     );
 }
