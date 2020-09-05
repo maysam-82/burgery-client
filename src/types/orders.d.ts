@@ -10,7 +10,7 @@ export interface IAddress {
     city: string;
 }
 
-export interface IOrders {
+export interface IOrder {
     ingredients: IIngredients;
     totalPrice: number;
     customer: ICustomer;

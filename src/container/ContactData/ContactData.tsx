@@ -4,7 +4,7 @@ import Spinner from '../../components/Spinner';
 import { postData } from '../../services/api/axios';
 import { IIngredients } from '../../types/ingredients';
 import { RouteComponentProps } from 'react-router-dom';
-import { IAddress, IOrders } from '../../types/orders';
+import { IAddress, IOrder } from '../../types/orders';
 
 import classes from './contactData.module.scss';
 
@@ -64,7 +64,7 @@ class ContactData extends Component<
             deliveryMethod: 'fastest',
             comments: 'without tomato',
         };
-        postData<IOrders>('/orders.json', order)
+        postData<IOrder>('/orders.json', order)
             .then((response) => {
                 this.setState({ isLoading: false });
                 this.props.history.replace('/');
