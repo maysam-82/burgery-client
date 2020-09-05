@@ -9,3 +9,11 @@ export interface IAddress {
     zipCode: string;
     city: string;
 }
+
+export interface IOrders {
+    ingredients: IIngredients;
+    totalPrice: number;
+    customer: ICustomer;
+    deliveryMethod: string;
+    comments: string;
+}

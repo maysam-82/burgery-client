@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Button from '../../components/Button';
+import Spinner from '../../components/Spinner';
 import { postData } from '../../services/api/axios';
 import { IIngredients } from '../../types/ingredients';
 import { RouteComponentProps } from 'react-router-dom';
-import Spinner from '../../components/Spinner';
+import { IAddress, IOrders } from '../../types/orders';
+
 import classes from './contactData.module.scss';
-import { IAddress, ICustomer } from '../../types/orders';
 
 interface IContactDataProps {
     ingredients: IIngredients;
@@ -19,14 +20,6 @@ interface IContactDataState {
     deliveryMethod: string;
     comments: string;
     isLoading: boolean;
-}
-
-interface IPostOrder {
-    ingredients: IIngredients;
-    totalPrice: number;
-    customer: ICustomer;
-    deliveryMethod: string;
-    comments: string;
 }
 
 class ContactData extends Component<
@@ -71,7 +64,7 @@ class ContactData extends Component<
             deliveryMethod: 'fastest',
             comments: 'without tomato',
         };
-        postData<IPostOrder>('/orders.json', order)
+        postData<IOrders>('/orders.json', order)
             .then((response) => {
                 this.setState({ isLoading: false });
                 this.props.history.replace('/');
