@@ -1,0 +1,16 @@
+@import '../../styles/variables.scss';
+
+.contactDataContainer {
+    margin: 1.125rem auto;
+    width: 100%;
+    text-align: center;
+    border: $border;
+    padding: 0.625rem;
+    box-shadow: $box-shadow;
+}
+
+@media (min-width: 600px) {
+    .contactDataContainer {
+        width: 31.25rem;
+    }
+}

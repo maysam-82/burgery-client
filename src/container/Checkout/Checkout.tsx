@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Route } from 'react-router-dom';
 import CheckoutSummary from '../../components/CheckoutSummary';
+import ContactData from '../ContactData';
 import { IIngredients } from '../../types/ingredients';
+import { getQueryParams } from '../../components/utils/burger';
 
 import classes from './checkout.module.scss';
-import { getQueryParams } from '../../components/utils/burger';
 
 interface ICheckoutState {
     ingredients: IIngredients;
@@ -53,6 +54,10 @@ class Checkout extends Component<
                     ingredients={this.state.ingredients}
                     handleCheckoutCancel={this.handleCheckoutCancel}
                     handleCheckoutContinue={this.handleCheckoutContinue}
+                />
+                <Route
+                    path={`${this.props.match.path}/contact-data`}
+                    component={ContactData}
                 />
             </div>
         );
