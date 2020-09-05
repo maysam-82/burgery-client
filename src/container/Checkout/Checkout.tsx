@@ -4,6 +4,7 @@ import CheckoutSummary from '../../components/CheckoutSummary';
 import { IIngredients } from '../../types/ingredients';
 
 import classes from './checkout.module.scss';
+import { getQueryParams } from '../../components/utils/burger';
 
 interface ICheckoutState {
     ingredients: IIngredients;
@@ -20,12 +21,19 @@ class Checkout extends Component<
 
         this.state = {
             ingredients: {
-                salad: 1,
-                bacon: 1,
-                cheese: 1,
-                meat: 1,
+                salad: 0,
+                bacon: 0,
+                cheese: 0,
+                meat: 0,
             },
         };
+    }
+
+    componentDidMount() {
+        const ingredients = getQueryParams(this.props.location.search);
+        this.setState({
+            ingredients: { ...this.state.ingredients, ...ingredients },
+        });
     }
 
     handleCheckoutCancel = () => {

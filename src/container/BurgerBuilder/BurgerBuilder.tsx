@@ -4,7 +4,7 @@ import Burger from '../../components/Burger';
 import { IIngredients } from '../../types/ingredients';
 import BurgerControls from '../../components/Burger/BurgerControls';
 import { ingredientsPrices } from '../../fixtures/ingredients';
-import { getIngredients } from '../../components/utils/burger';
+import { getIngredients, setQueryString } from '../../components/utils/burger';
 import Modal from '../../components/Modal';
 import OrderSummary from '../../components/OrderSummary';
 import Spinner from '../../components/Spinner';
@@ -122,7 +122,13 @@ class BurgerBuilder extends Component<
         //     .catch((error) =>
         //         this.setState({ isLoading: false, isOrdered: false })
         //     );
-        this.props.history.push('/checkout');
+
+        this.props.history.push({
+            pathname: '/checkout',
+            search: this.state.ingredients
+                ? '?' + setQueryString(this.state.ingredients)
+                : '',
+        });
     };
 
     render() {
