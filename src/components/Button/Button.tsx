@@ -4,7 +4,7 @@ import classes from './button.module.scss';
 interface IButtonProps {
     children: React.ReactNode;
     handleClick: () => void;
-    type: string;
+    type: 'danger' | 'success' | 'cancel';
 }
 
 function Button({ children, handleClick, type }: IButtonProps) {
