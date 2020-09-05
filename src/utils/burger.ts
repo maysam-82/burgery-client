@@ -1,5 +1,7 @@
 import { IIngredients } from '../types/ingredients';
+import { IIngredient } from '../types/orders';
 
+// Maps ingredients with their count to array of ingredients.
 export const getIngredients = (ingredients: IIngredients): string[] => {
     let transformedIngredients: string[] = [];
     for (const ingredientKey in ingredients) {
@@ -44,4 +46,15 @@ export const getQueryParams = (searchString: string) => {
         }
     }
     return { ingredients, totalPrice };
+};
+
+// Converts ingredients object to array of ingredients
+export const getIngredientsArray = (
+    ingredients: IIngredients
+): IIngredient[] => {
+    const mappedIngredients = [];
+    for (const key in ingredients) {
+        mappedIngredients.push({ name: key, amount: ingredients[key] });
+    }
+    return mappedIngredients;
 };

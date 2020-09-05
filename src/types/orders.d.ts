@@ -18,3 +18,8 @@ export interface IOrder {
     comments: string;
     id?: string;
 }
+
+export interface IIngredient {
+    name: string;
+    amount: number;
+}

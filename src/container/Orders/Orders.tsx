@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import Order from '../../components/Order';
 import axiosInstance, { getData } from '../../services/api/axios';
-import { IOrders } from '../../types/orders';
+import { IOrder } from '../../types/orders';
 import withErrorHandler from '../../HOC/WithErrorHandler/WithErrorHandler';
 
 interface IOrdersState {
-    orders: IOrders[];
+    orders: IOrder[];
     isLoading: boolean;
 }
 
 interface IServerOrders {
-    [key: string]: IOrders;
+    [key: string]: IOrder;
 }
 
 class Orders extends Component<{}, IOrdersState> {
@@ -37,16 +37,19 @@ class Orders extends Component<{}, IOrdersState> {
     }
 
     render() {
-        const { orders } = this.state;
-        const renderOrders = '';
-        return (
-            <div>
-                <Order />
-                <Order />
-                <Order />
-                <Order />
-            </div>
-        );
+        const { orders, isLoading } = this.state;
+        const renderOrders =
+            !isLoading &&
+            orders.length > 0 &&
+            orders.map(({ id, ingredients, totalPrice, deliveryMethod }) => (
+                <Order
+                    key={id}
+                    ingredients={ingredients}
+                    price={totalPrice}
+                    deliveryMethod={deliveryMethod}
+                />
+            ));
+        return <div>{renderOrders}</div>;
     }
 }
 
