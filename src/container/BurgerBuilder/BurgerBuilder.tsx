@@ -4,7 +4,7 @@ import Burger from '../../components/Burger';
 import { IIngredients } from '../../types/ingredients';
 import BurgerControls from '../../components/Burger/BurgerControls';
 import { ingredientsPrices } from '../../fixtures/ingredients';
-import { getIngredients, setQueryString } from '../../components/utils/burger';
+import { getIngredients, setQueryString } from '../../utils/burger';
 import Modal from '../../components/Modal';
 import OrderSummary from '../../components/OrderSummary';
 import Spinner from '../../components/Spinner';

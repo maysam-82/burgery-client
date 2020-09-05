@@ -1,4 +1,4 @@
-import { IIngredients } from '../../types/ingredients';
+import { IIngredients } from '../types/ingredients';
 
 export const getIngredients = (ingredients: IIngredients): string[] => {
     let transformedIngredients: string[] = [];

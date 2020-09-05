@@ -3,7 +3,7 @@ import { RouteComponentProps, Route } from 'react-router-dom';
 import CheckoutSummary from '../../components/CheckoutSummary';
 import ContactData from '../ContactData';
 import { IIngredients } from '../../types/ingredients';
-import { getQueryParams } from '../../components/utils/burger';
+import { getQueryParams } from '../../utils/burger';
 
 import classes from './checkout.module.scss';
 
