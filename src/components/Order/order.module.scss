@@ -1,0 +1,9 @@
+@import '../../styles/variables.scss';
+
+.orderContainer {
+    width: calc(100% - 1.25rem);
+    border: $border;
+    box-shadow: $box-shadow;
+    padding: 0.625rem;
+    margin: 0.625rem;
+}
