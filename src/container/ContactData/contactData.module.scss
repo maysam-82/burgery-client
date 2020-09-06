@@ -3,10 +3,17 @@
 .contactDataContainer {
     margin: 1.125rem auto;
     width: 100%;
-    text-align: center;
-    border: $border;
+    text-align: left;
     padding: 0.625rem;
     box-shadow: $box-shadow;
+    background-color: $white;
+    color: $primary !important;
+    h4 {
+        margin: 0;
+        padding: 0.625rem;
+        width: 100%;
+        border-bottom: 1px solid $white;
+    }
 }
 
 @media (min-width: 600px) {

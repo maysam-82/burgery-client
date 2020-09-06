@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+
 import Button from '../../components/Button';
 import Spinner from '../../components/Spinner';
+import FormControl from '../../components/FormControl';
+
 import { postData } from '../../services/api/axios';
+import { formData } from '../../data/formData';
+
 import { IIngredients } from '../../types/ingredients';
-import { RouteComponentProps } from 'react-router-dom';
-import { IAddress, IOrder } from '../../types/orders';
+import {
+    IOrder,
+    IFormData,
+    IInputConfig,
+    IFormElement,
+    ISelectConfig,
+} from '../../types/orders';
 
 import classes from './contactData.module.scss';
 
@@ -14,12 +25,13 @@ interface IContactDataProps {
 }
 
 interface IContactDataState {
-    name: string;
-    address: IAddress;
-    email: string;
-    deliveryMethod: string;
-    comments: string;
+    formData: IFormData;
     isLoading: boolean;
+}
+
+interface IFormControl {
+    id: string;
+    element: IFormElement<IInputConfig | ISelectConfig>;
 }
 
 class ContactData extends Component<
@@ -30,40 +42,22 @@ class ContactData extends Component<
         super(props);
 
         this.state = {
-            name: 'test',
-            address: {
-                street: 'test street',
-                zipCode: 'xxxxxx',
-                city: 'test city',
-            },
-            email: 'sample@sample.com',
-            deliveryMethod: 'fastest',
-            comments: 'without tomato',
+            formData,
             isLoading: false,
         };
     }
 
-    handleSubmitOrder = (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
+    handleSubmitOrder = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const { ingredients, totalPrice } = this.props;
         this.setState({ isLoading: true });
-        const order = {
+        const order: IOrder = {
             ingredients,
             totalPrice,
-            customer: {
-                name: 'test',
-                address: {
-                    street: 'test street',
-                    zipCode: 'xxxxxx',
-                    city: 'test city',
-                },
-                email: 'sample@sample.com',
-            },
-            deliveryMethod: 'fastest',
-            comments: 'without tomato',
         };
+        for (const key in this.state.formData) {
+            order[key] = this.state.formData[key].value;
+        }
         postData<IOrder>('/orders.json', order)
             .then((response) => {
                 this.setState({ isLoading: false });
@@ -72,24 +66,78 @@ class ContactData extends Component<
             .catch((error) => this.setState({ isLoading: false }));
     };
 
+    handleInputChange = ({
+        target: { name, value },
+    }: React.ChangeEvent<HTMLInputElement>) => {
+        this.handleControlUpdate(name, value);
+    };
+    handleSelectChange = ({
+        target: { name, value },
+    }: React.ChangeEvent<HTMLSelectElement>) => {
+        this.handleControlUpdate(name, value);
+    };
+
+    handleControlUpdate = (name: string, value: string) => {
+        const clonedFormData = { ...this.state.formData };
+        const clonedFormElement = { ...clonedFormData[name] };
+        clonedFormElement.value = value;
+        clonedFormData[name] = clonedFormElement;
+        this.setState({ formData: clonedFormData });
+    };
+
     render() {
-        const { isLoading } = this.state;
+        const { isLoading, formData } = this.state;
+        const formControls: IFormControl[] = [];
+        for (const key in formData) {
+            formControls.push({ id: key, element: formData[key] });
+        }
         const renderForm = isLoading ? (
             <Spinner />
         ) : (
-            <form>
-                <input type="text" name="name" placeholder="Your Name" />
-                <input type="email" name="email" placeholder="Your Email" />
-                <input type="text" name="street" placeholder="Street" />
-                <input type="text" name="postal" placeholder="Post Code" />
-                <Button type="danger" handleClick={this.handleSubmitOrder}>
-                    ORDER
-                </Button>
+            <form onSubmit={this.handleSubmitOrder}>
+                {formControls.map(
+                    ({
+                        id,
+                        element: { elementConfig, elementType, value },
+                    }) => {
+                        if (id !== 'deliveryMethod') {
+                            return (
+                                <FormControl
+                                    key={id}
+                                    label={id.toLocaleUpperCase()}
+                                    controlType={elementType}
+                                    controlConfig={
+                                        elementConfig as IInputConfig
+                                    }
+                                    value={value}
+                                    handleInputChange={this.handleInputChange}
+                                    name={id}
+                                />
+                            );
+                        } else {
+                            return (
+                                <FormControl
+                                    key={id}
+                                    label={id.toLocaleUpperCase()}
+                                    controlType={elementType}
+                                    controlConfig={
+                                        elementConfig as ISelectConfig
+                                    }
+                                    value={value}
+                                    handleSelectChange={this.handleSelectChange}
+                                    name={id}
+                                />
+                            );
+                        }
+                    }
+                )}
+
+                <Button type="danger">ORDER</Button>
             </form>
         );
         return (
             <div className={classes.contactDataContainer}>
-                <h4>Enter your contact data:</h4>
+                <h4>ENTER YOUR CONTACT DATA</h4>
                 {renderForm}
             </div>
         );
