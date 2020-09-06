@@ -6,10 +6,9 @@ import { getIngredientsArray } from '../../utils/burger';
 interface IOrderProps {
     ingredients: IIngredients;
     price: number;
-    deliveryMethod: string;
 }
 
-function Order({ ingredients, price, deliveryMethod }: IOrderProps) {
+function Order({ ingredients, price }: IOrderProps) {
     const ingredientsArray = getIngredientsArray(ingredients);
     const renderIngredients = ingredientsArray.map(({ name, amount }) => (
         <span key={name} className={classes.ingredientContainer}>
