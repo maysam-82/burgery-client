@@ -1,0 +1,28 @@
+@import '../../styles/variables.scss';
+
+.formControlContainer {
+    width: 100%;
+    padding: 0.625rem;
+    color: $primary !important;
+    .controlLabel {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    .controlElement {
+        outline: none;
+        background-color: $white;
+        padding: 0.625rem;
+        border: none;
+        border: 1px solid $primary;
+        color: $primary-dark !important;
+        width: 100%;
+        display: block;
+        font-size: 1rem;
+
+        &:focus {
+            background-color: $grey-light;
+            outline: none;
+        }
+    }
+}
