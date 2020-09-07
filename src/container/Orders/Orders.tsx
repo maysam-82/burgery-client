@@ -42,12 +42,7 @@ class Orders extends Component<{}, IOrdersState> {
             !isLoading &&
             orders.length > 0 &&
             orders.map(({ id, ingredients, totalPrice, deliveryMethod }) => (
-                <Order
-                    key={id}
-                    ingredients={ingredients}
-                    price={totalPrice}
-                    deliveryMethod={deliveryMethod}
-                />
+                <Order key={id} ingredients={ingredients} price={totalPrice} />
             ));
         return <div>{renderOrders}</div>;
     }
