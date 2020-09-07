@@ -12,7 +12,6 @@ import { IIngredients } from '../../types/ingredients';
 import {
     IOrder,
     IFormData,
-    IInputConfig,
     IFormElement,
     ISelectConfig,
 } from '../../types/orders';
@@ -31,7 +30,7 @@ interface IContactDataState {
 
 interface IFormControl {
     id: string;
-    element: IFormElement<IInputConfig | ISelectConfig>;
+    element: IFormElement<ISelectConfig>;
 }
 
 class ContactData extends Component<
@@ -100,35 +99,17 @@ class ContactData extends Component<
                         id,
                         element: { elementConfig, elementType, value },
                     }) => {
-                        if (id !== 'deliveryMethod') {
-                            return (
-                                <FormControl
-                                    key={id}
-                                    label={id.toLocaleUpperCase()}
-                                    controlType={elementType}
-                                    controlConfig={
-                                        elementConfig as IInputConfig
-                                    }
-                                    value={value}
-                                    handleInputChange={this.handleInputChange}
-                                    name={id}
-                                />
-                            );
-                        } else {
-                            return (
-                                <FormControl
-                                    key={id}
-                                    label={id.toLocaleUpperCase()}
-                                    controlType={elementType}
-                                    controlConfig={
-                                        elementConfig as ISelectConfig
-                                    }
-                                    value={value}
-                                    handleSelectChange={this.handleSelectChange}
-                                    name={id}
-                                />
-                            );
-                        }
+                        return (
+                            <FormControl
+                                key={id}
+                                label={id.toLocaleUpperCase()}
+                                controlType={elementType}
+                                controlConfig={elementConfig as ISelectConfig}
+                                value={value}
+                                handleSelectChange={this.handleSelectChange}
+                                name={id}
+                            />
+                        );
                     }
                 )}
 

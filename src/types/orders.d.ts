@@ -24,11 +24,11 @@ export interface IFormElement<U> {
 
 export interface IFormData {
     [key: string]: IFormElement;
-    name: IFormElement<IInputConfig>;
-    street: IFormElement<IInputConfig>;
-    zipCode: IFormElement<IInputConfig>;
-    city: IFormElement<IInputConfig>;
-    email: IFormElement<IInputConfig>;
+    name: IFormElement<ISelectConfig>;
+    street: IFormElement<ISelectConfig>;
+    zipCode: IFormElement<ISelectConfig>;
+    city: IFormElement<ISelectConfig>;
+    email: IFormElement<ISelectConfig>;
     deliveryMethod: IFormElement<ISelectConfig>;
 }
 
