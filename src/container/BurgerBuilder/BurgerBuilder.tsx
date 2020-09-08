@@ -27,10 +27,13 @@ interface IBurgerBuilderProps {
 
 class BurgerBuilder extends Component<IBurgerBuilderProps> {
     componentDidMount() {
-        this.props.fetchIngredients();
+        if (!this.props.burger.ingredients) {
+            this.props.fetchIngredients();
+        }
     }
 
     handlePurchaseContinue = () => {
+        this.props.setBurgerOrder(false);
         history.push('/checkout');
     };
 
@@ -44,7 +47,7 @@ class BurgerBuilder extends Component<IBurgerBuilderProps> {
                 isOrdered,
             },
         } = this.props;
-
+        console.log(isOrdered);
         const renderOrderSummary =
             isLoading || !ingredients ? (
                 <Spinner />
@@ -52,7 +55,7 @@ class BurgerBuilder extends Component<IBurgerBuilderProps> {
                 <OrderSummary
                     ingredients={ingredients}
                     handleCancel={() => this.props.setBurgerOrder(false)}
-                    handleContinue={() => history.push('/checkout')}
+                    handleContinue={this.handlePurchaseContinue}
                     price={totalPrice}
                 />
             );
