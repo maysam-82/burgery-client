@@ -1,68 +1,41 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { RouteComponentProps, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import CheckoutSummary from '../../components/CheckoutSummary';
 import ContactData from '../ContactData';
 import { IIngredients } from '../../types/ingredients';
-import { getQueryParams } from '../../utils/burger';
+import { IStoreState } from '../../redux/reducers';
+import history from '../../history';
 
 // import classes from './checkout.module.scss';
 
-interface ICheckoutState {
-    ingredients: IIngredients;
+interface ICheckoutProps {
+    ingredients: IIngredients | null;
     totalPrice: number;
 }
 
-interface ICheckoutProps {}
-
-class Checkout extends Component<
-    ICheckoutProps & RouteComponentProps,
-    ICheckoutState
-> {
-    constructor(props: ICheckoutProps & RouteComponentProps) {
-        super(props);
-
-        this.state = {
-            ingredients: {
-                salad: 0,
-                bacon: 0,
-                cheese: 0,
-                meat: 0,
-            },
-            totalPrice: 0,
-        };
-    }
-
-    componentDidMount() {
-        const { ingredients, totalPrice } = getQueryParams(
-            this.props.location.search
-        );
-        this.setState({
-            ingredients: { ...this.state.ingredients, ...ingredients },
-            totalPrice,
-        });
-    }
-
-    handleCheckoutCancel = () => {
-        this.props.history.goBack();
+function Checkout(props: ICheckoutProps & RouteComponentProps) {
+    const { ingredients, totalPrice } = props;
+    const handleCheckoutCancel = () => {
+        history.goBack();
     };
 
-    handleCheckoutContinue = () => {
+    const handleCheckoutContinue = () => {
         // history.replace will erase the history stack completely so that back button
         // does not work after changing route.
-        this.props.history.replace('/checkout/contact-data');
+        history.replace('/checkout/contact-data');
     };
 
-    render() {
-        const { ingredients, totalPrice } = this.state;
-        return (
+    return (
+        ingredients && (
             <div>
                 <CheckoutSummary
-                    ingredients={this.state.ingredients}
-                    handleCheckoutCancel={this.handleCheckoutCancel}
-                    handleCheckoutContinue={this.handleCheckoutContinue}
+                    ingredients={ingredients}
+                    handleCheckoutCancel={handleCheckoutCancel}
+                    handleCheckoutContinue={handleCheckoutContinue}
                 />
                 <Route
-                    path={`${this.props.match.path}/contact-data`}
+                    path={`${props.match.path}/contact-data`}
                     render={(props) => (
                         <ContactData
                             ingredients={ingredients}
@@ -72,8 +45,13 @@ class Checkout extends Component<
                     )}
                 />
             </div>
-        );
-    }
+        )
+    );
 }
 
-export default Checkout;
+const mapStateToProps = (state: IStoreState) => ({
+    ingredients: state.burger.ingredients,
+    totalPrice: state.burger.totalPrice,
+});
+
+export default connect(mapStateToProps)(Checkout);

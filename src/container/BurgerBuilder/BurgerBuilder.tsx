@@ -47,7 +47,6 @@ class BurgerBuilder extends Component<IBurgerBuilderProps> {
                 isOrdered,
             },
         } = this.props;
-        console.log(isOrdered);
         const renderOrderSummary =
             isLoading || !ingredients ? (
                 <Spinner />
