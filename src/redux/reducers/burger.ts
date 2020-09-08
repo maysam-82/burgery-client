@@ -39,6 +39,8 @@ const burgerReducer = (state = initialState, action: Actions) => {
                     ingredientsType
                 ),
             };
+        case ActionTypes.SET_ORDER:
+            return { ...state, isOrdered: action.payload };
 
         default:
             return state;

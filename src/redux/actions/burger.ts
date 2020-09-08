@@ -21,6 +21,11 @@ export interface IUpdateIngredients {
     payload: IUpdateIngredientsPayload;
 }
 
+export interface ISetOrder {
+    type: ActionTypes.SET_ORDER;
+    payload: boolean;
+}
+
 interface IUpdateIngredientsPayload {
     ingredientsType: string;
     isIncreased: boolean;
@@ -57,4 +62,9 @@ export const updateIngredients = (
 ): IUpdateIngredients => ({
     type: ActionTypes.UPDATE_INGREDIENTS,
     payload: { ingredientsType, isIncreased },
+});
+
+export const setBurgerOrder = (hasOrder: boolean): ISetOrder => ({
+    type: ActionTypes.SET_ORDER,
+    payload: hasOrder,
 });
