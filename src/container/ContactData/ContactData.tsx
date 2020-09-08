@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Button from '../../components/Button';
 import Spinner from '../../components/Spinner';
 import FormControl from '../../components/FormControl';
 
-import { postData } from '../../services/api/axios';
+import axios from '../../services/api/axios';
 import { formData } from '../../data/formData';
 
 import { IIngredients } from '../../types/ingredients';
@@ -15,17 +15,21 @@ import {
     IFormElement,
     ISelectConfig,
 } from '../../types/orders';
+import WithErrorHandler from '../../HOC/WithErrorHandler';
+import { postOrder } from '../../redux/actions/orders';
 
 import classes from './contactData.module.scss';
+import { IStoreState } from '../../redux/reducers';
 
 interface IContactDataProps {
-    ingredients: IIngredients;
+    ingredients: IIngredients | null;
     totalPrice: number;
+    postOrder: Function;
+    isLoading: boolean;
 }
 
 interface IContactDataState {
     formData: IFormData;
-    isLoading: boolean;
 }
 
 interface IFormControl {
@@ -33,23 +37,18 @@ interface IFormControl {
     element: IFormElement<ISelectConfig>;
 }
 
-class ContactData extends Component<
-    IContactDataProps & RouteComponentProps,
-    IContactDataState
-> {
-    constructor(props: IContactDataProps & RouteComponentProps) {
+class ContactData extends Component<IContactDataProps, IContactDataState> {
+    constructor(props: IContactDataProps) {
         super(props);
 
         this.state = {
             formData,
-            isLoading: false,
         };
     }
 
     handleSubmitOrder = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const { ingredients, totalPrice } = this.props;
-        this.setState({ isLoading: true });
         const order: IOrder = {
             ingredients,
             totalPrice,
@@ -57,12 +56,7 @@ class ContactData extends Component<
         for (const key in this.state.formData) {
             order[key] = this.state.formData[key].value;
         }
-        postData<IOrder>('/orders.json', order)
-            .then((response) => {
-                this.setState({ isLoading: false });
-                this.props.history.replace('/');
-            })
-            .catch((error) => this.setState({ isLoading: false }));
+        this.props.postOrder(order);
     };
 
     handleInputChange = ({
@@ -70,6 +64,7 @@ class ContactData extends Component<
     }: React.ChangeEvent<HTMLInputElement>) => {
         this.handleControlUpdate(name, value);
     };
+
     handleSelectChange = ({
         target: { name, value },
     }: React.ChangeEvent<HTMLSelectElement>) => {
@@ -85,14 +80,13 @@ class ContactData extends Component<
     };
 
     render() {
-        const { isLoading, formData } = this.state;
+        const { formData } = this.state;
+        const { isLoading } = this.props;
         const formControls: IFormControl[] = [];
         for (const key in formData) {
             formControls.push({ id: key, element: formData[key] });
         }
-        const renderForm = isLoading ? (
-            <Spinner />
-        ) : (
+        const renderForm = (
             <form onSubmit={this.handleSubmitOrder}>
                 {formControls.map(
                     ({
@@ -116,13 +110,20 @@ class ContactData extends Component<
                 <Button type="danger">ORDER</Button>
             </form>
         );
+
         return (
             <div className={classes.contactDataContainer}>
                 <h4>ENTER YOUR CONTACT DATA</h4>
-                {renderForm}
+                {!isLoading ? renderForm : <Spinner />}
             </div>
         );
     }
 }
 
-export default ContactData;
+const mapStateToProps = (state: IStoreState) => ({
+    isLoading: state.orders.isLoading,
+});
+
+export default connect(mapStateToProps, { postOrder })(
+    WithErrorHandler<IContactDataProps>(ContactData, axios)
+);

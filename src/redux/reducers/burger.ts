@@ -1,6 +1,6 @@
 import { IIngredients } from './../../types/ingredients.d';
 import { updateIngredientsState } from './utils';
-import { Actions, ActionTypes } from './../actions/actionTypes';
+import { BurgerActions, ActionTypes } from './../actions/actionTypes';
 
 export interface IBurgerBuilder {
     ingredients: IIngredients | null;
@@ -18,7 +18,7 @@ const initialState: IBurgerBuilder = {
     isOrdered: false,
 };
 
-const burgerReducer = (state = initialState, action: Actions) => {
+const burgerReducer = (state = initialState, action: BurgerActions) => {
     switch (action.type) {
         case ActionTypes.FETCH_INGREDIENTS_START:
             return { ...state, isLoading: true };
