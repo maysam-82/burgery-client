@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 const axiosInstance = axios.create({
     baseURL: 'https://sample-burgery.firebaseio.com/',

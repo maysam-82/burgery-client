@@ -4,6 +4,7 @@ import { Dispatch } from 'redux';
 import { postData, getData } from '../../services/api/axios';
 import { IOrder } from '../../types/orders';
 import history from '../../history';
+import { resetOrder } from './burger';
 
 export interface IPostOrderStart {
     type: ActionTypes.POST_ORDERS_START;
@@ -67,6 +68,7 @@ export const postOrder = (order: IOrder) => async (dispatch: Dispatch) => {
             order
         );
         if (data) {
+            dispatch(resetOrder());
             dispatch(postOrderSuccess());
             history.replace('/');
         }

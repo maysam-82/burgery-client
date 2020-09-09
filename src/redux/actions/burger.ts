@@ -31,6 +31,10 @@ interface IUpdateIngredientsPayload {
     isIncreased: boolean;
 }
 
+export interface IResetOrder {
+    type: ActionTypes.RESET_ORDER;
+}
+
 const getIngredientsStart = (): IFetchIngredientsStart => ({
     type: ActionTypes.FETCH_INGREDIENTS_START,
 });
@@ -67,4 +71,8 @@ export const updateIngredients = (
 export const setBurgerOrder = (hasOrder: boolean): ISetOrder => ({
     type: ActionTypes.SET_ORDER,
     payload: hasOrder,
+});
+
+export const resetOrder = (): IResetOrder => ({
+    type: ActionTypes.RESET_ORDER,
 });
