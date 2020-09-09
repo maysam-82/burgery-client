@@ -20,7 +20,7 @@ function Order({ ingredients, price }: IOrderProps) {
             Ingredients:
             {renderIngredients}
             <p>
-                Price <strong>$ {price}</strong>
+                Price <strong>$ {price.toFixed(2)}</strong>
             </p>
         </div>
     );
