@@ -45,3 +45,7 @@ interface IOption {
     value: string;
     displayValue: string;
 }
+
+export interface IServerOrders {
+    [key: string]: IOrder;
+}
