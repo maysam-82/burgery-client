@@ -30,6 +30,10 @@ export interface IFetchOrderSuccess {
     payload: IServerOrders;
 }
 
+export interface IPostOrderResponse {
+    name: string;
+}
+
 const postOrderStart = (): IPostOrderStart => ({
     type: ActionTypes.POST_ORDERS_START,
 });
@@ -58,7 +62,10 @@ const fetchOrdersSuccess = (orders: IServerOrders): IFetchOrderSuccess => ({
 export const postOrder = (order: IOrder) => async (dispatch: Dispatch) => {
     dispatch(postOrderStart());
     try {
-        const data = await postData<IOrder>('/orders.json', order);
+        const data = await postData<IOrder, IPostOrderResponse>(
+            '/orders.json',
+            order
+        );
         if (data) {
             dispatch(postOrderSuccess());
             history.replace('/');

@@ -11,10 +11,7 @@ export async function getData<T>(url: string): Promise<T> {
     return response.data;
 }
 
-export async function postData<T>(
-    url: string,
-    data: T
-): Promise<AxiosResponse> {
+export async function postData<T, R>(url: string, data: T): Promise<R> {
     const response = await axiosInstance.post(url, data);
     return response.data;
 }
