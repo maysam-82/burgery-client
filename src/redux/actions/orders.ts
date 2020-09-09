@@ -4,6 +4,7 @@ import { Dispatch } from 'redux';
 import { postData, getData } from '../../services/api/axios';
 import { IOrder } from '../../types/orders';
 import history from '../../history';
+import { resetOrder } from './burger';
 
 export interface IPostOrderStart {
     type: ActionTypes.POST_ORDERS_START;
@@ -28,6 +29,10 @@ export interface IFetchOrderFail {
 export interface IFetchOrderSuccess {
     type: ActionTypes.FETCH_ORDERS_SUCCESS;
     payload: IServerOrders;
+}
+
+export interface IPostOrderResponse {
+    name: string;
 }
 
 const postOrderStart = (): IPostOrderStart => ({
@@ -58,8 +63,12 @@ const fetchOrdersSuccess = (orders: IServerOrders): IFetchOrderSuccess => ({
 export const postOrder = (order: IOrder) => async (dispatch: Dispatch) => {
     dispatch(postOrderStart());
     try {
-        const data = await postData<IOrder>('/orders.json', order);
+        const data = await postData<IOrder, IPostOrderResponse>(
+            '/orders.json',
+            order
+        );
         if (data) {
+            dispatch(resetOrder());
             dispatch(postOrderSuccess());
             history.replace('/');
         }
