@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps, Route } from 'react-router-dom';
+import { RouteComponentProps, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import CheckoutSummary from '../../components/CheckoutSummary';
 import ContactData from '../ContactData';
@@ -25,27 +25,26 @@ function Checkout(props: ICheckoutProps & RouteComponentProps) {
         // does not work after changing route.
         history.replace('/checkout/contact-data');
     };
-
-    return (
-        ingredients && (
-            <div>
-                <CheckoutSummary
-                    ingredients={ingredients}
-                    handleCheckoutCancel={handleCheckoutCancel}
-                    handleCheckoutContinue={handleCheckoutContinue}
-                />
-                <Route
-                    path={`${props.match.path}/contact-data`}
-                    render={(props) => (
-                        <ContactData
-                            ingredients={ingredients}
-                            totalPrice={totalPrice}
-                            {...props}
-                        />
-                    )}
-                />
-            </div>
-        )
+    return ingredients ? (
+        <div>
+            <CheckoutSummary
+                ingredients={ingredients}
+                handleCheckoutCancel={handleCheckoutCancel}
+                handleCheckoutContinue={handleCheckoutContinue}
+            />
+            <Route
+                path={`${props.match.path}/contact-data`}
+                render={(props) => (
+                    <ContactData
+                        ingredients={ingredients}
+                        totalPrice={totalPrice}
+                        {...props}
+                    />
+                )}
+            />
+        </div>
+    ) : (
+        <Redirect to="/" />
     );
 }
 
