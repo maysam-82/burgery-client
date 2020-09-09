@@ -1,17 +1,67 @@
+@import '../../styles/variables.scss';
+
 .orderSummaryContainer {
     text-transform: capitalize;
 }
+
+.title {
+    margin: 0;
+    margin-bottom: 0.625rem;
+    width: 100%;
+    text-align: center;
+    font-size: 1.25rem;
+    color: $primary;
+}
+
+.orderIngredients {
+    padding: 0;
+    margin: 0.625 auto;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    li {
+        width: 50%;
+        font-weight: bold;
+        padding: 0.625rem 0;
+    }
+}
+
 .buttonContainer {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    button {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        &:first-child {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 }
+
 .question {
-    text-align: center;
+    text-align: left;
     font-weight: bold;
 }
 
 .price {
     font-size: 1.125rem;
     font-weight: bold;
+}
+
+@media (min-width: 600px) {
+    .buttonContainer {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        button {
+            width: calc(50% - 0.3125rem);
+            margin: 0;
+        }
+    }
 }
