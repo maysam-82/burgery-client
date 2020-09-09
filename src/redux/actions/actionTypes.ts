@@ -5,7 +5,14 @@ import {
     IUpdateIngredients,
     ISetOrder,
 } from './burger';
-import { IPostOrderStart, IPostOrderFail, IPostOrderSuccess } from './orders';
+import {
+    IPostOrderStart,
+    IPostOrderFail,
+    IPostOrderSuccess,
+    IFetchOrderFail,
+    IFetchOrderSuccess,
+    IFetchOrderStart,
+} from './orders';
 
 export type BurgerActions =
     | IFetchIngredientsSuccess
@@ -23,6 +30,15 @@ export enum ActionTypes {
     POST_ORDERS_START,
     POST_ORDERS_FAIL,
     POST_ORDERS_SUCCESS,
+    FETCH_ORDERS_START,
+    FETCH_ORDERS_FAIL,
+    FETCH_ORDERS_SUCCESS,
 }
 
-export type OrderActions = IPostOrderStart | IPostOrderFail | IPostOrderSuccess;
+export type OrderActions =
+    | IPostOrderStart
+    | IPostOrderFail
+    | IPostOrderSuccess
+    | IFetchOrderSuccess
+    | IFetchOrderFail
+    | IFetchOrderStart;

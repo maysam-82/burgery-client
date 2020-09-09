@@ -1,51 +1,47 @@
 import React, { Component } from 'react';
 import Order from '../../components/Order';
-import axiosInstance, { getData } from '../../services/api/axios';
+import axiosInstance from '../../services/api/axios';
 import { IOrder } from '../../types/orders';
 import withErrorHandler from '../../HOC/WithErrorHandler/WithErrorHandler';
+import { fetchOrders } from '../../redux/actions/orders';
+import { IStoreState } from '../../redux/reducers';
+import { connect } from 'react-redux';
+import Spinner from '../../components/Spinner/Spinner';
 
-interface IOrdersState {
+interface IOrdersProps {
     orders: IOrder[];
     isLoading: boolean;
+    fetchOrders: Function;
 }
 
-interface IServerOrders {
-    [key: string]: IOrder;
-}
-
-class Orders extends Component<{}, IOrdersState> {
-    constructor(props: {}) {
-        super(props);
-
-        this.state = {
-            orders: [],
-            isLoading: false,
-        };
-    }
-
+class Orders extends Component<IOrdersProps> {
     componentDidMount() {
-        this.setState({ isLoading: true });
-        getData<IServerOrders>('/orders.json')
-            .then((response) => {
-                const orders = [];
-                for (const key in response) {
-                    orders.push({ ...response[key], id: key });
-                }
-                this.setState({ orders: [...orders], isLoading: false });
-            })
-            .catch((error) => this.setState({ isLoading: false }));
+        this.props.fetchOrders();
     }
 
     render() {
-        const { orders, isLoading } = this.state;
+        const { orders, isLoading } = this.props;
         const renderOrders =
-            !isLoading &&
-            orders.length > 0 &&
-            orders.map(({ id, ingredients, totalPrice, deliveryMethod }) => (
-                <Order key={id} ingredients={ingredients} price={totalPrice} />
-            ));
+            !isLoading && orders.length > 0 ? (
+                orders.map(({ id, ingredients, totalPrice }) => (
+                    <Order
+                        key={id}
+                        ingredients={ingredients}
+                        price={totalPrice}
+                    />
+                ))
+            ) : (
+                <Spinner />
+            );
         return <div>{renderOrders}</div>;
     }
 }
 
-export default withErrorHandler<{}>(Orders, axiosInstance);
+const mapStateToProps = (state: IStoreState) => ({
+    orders: state.orders.orders,
+    isLoading: state.orders.isLoading,
+});
+
+export default connect(mapStateToProps, { fetchOrders })(
+    withErrorHandler<IOrdersProps>(Orders, axiosInstance)
+);

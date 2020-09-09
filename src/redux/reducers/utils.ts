@@ -1,6 +1,7 @@
 import { getIngredients } from '../../utils/burger';
 import { IIngredients } from '../../types/ingredients';
 import { ingredientsPrices } from '../../fixtures/ingredients';
+import { IServerOrders, IOrder } from '../../types/orders';
 
 interface IIngredientsOutput {
     ingredients: IIngredients;
@@ -52,4 +53,12 @@ const checkPurchasable = (ingredients: IIngredients): boolean => {
 // Check if ingredient amount will be less than zero by subtracting 1.
 const checkAmountValidation = (ingredientAmount: number): boolean => {
     return ingredientAmount - 1 >= 0;
+};
+
+export const tramsformOrders = (ordersData: IServerOrders): IOrder[] => {
+    const orders: IOrder[] = [];
+    for (const key in ordersData) {
+        orders.push({ ...ordersData[key], id: key });
+    }
+    return orders;
 };
