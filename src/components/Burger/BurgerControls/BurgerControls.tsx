@@ -30,14 +30,16 @@ function BurgerControls({
             <p className={classes.price}>
                 Current Price: <strong>${price.toFixed(2)}</strong>
             </p>
-            {renderControls}
-            <button
-                className={classes.orderButton}
-                disabled={!purchasable}
-                onClick={handleOrder}
-            >
-                ORDER NOW! <i className="fas fa-hamburger"></i>
-            </button>
+            <div className={classes.controlsContainer}>{renderControls}</div>
+            <div className={classes.buttonContainer}>
+                <button
+                    className={classes.orderButton}
+                    disabled={!purchasable}
+                    onClick={handleOrder}
+                >
+                    ORDER NOW! <i className="fas fa-hamburger"></i>
+                </button>
+            </div>
         </div>
     );
 }

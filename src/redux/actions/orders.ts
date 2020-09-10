@@ -16,6 +16,7 @@ export interface IPostOrderFail {
 
 export interface IPostOrderSuccess {
     type: ActionTypes.POST_ORDERS_SUCCESS;
+    payload: IPostOrderResponse;
 }
 
 export interface IFetchOrderStart {
@@ -43,8 +44,9 @@ const postOrderFail = (): IPostOrderFail => ({
     type: ActionTypes.POST_ORDERS_FAIL,
 });
 
-const postOrderSuccess = (): IPostOrderSuccess => ({
+const postOrderSuccess = (data: IPostOrderResponse): IPostOrderSuccess => ({
     type: ActionTypes.POST_ORDERS_SUCCESS,
+    payload: data,
 });
 
 const fetchOrdersStart = (): IFetchOrderStart => ({
@@ -69,8 +71,8 @@ export const postOrder = (order: IOrder) => async (dispatch: Dispatch) => {
         );
         if (data) {
             dispatch(resetOrder());
-            dispatch(postOrderSuccess());
-            history.replace('/');
+            dispatch(postOrderSuccess(data));
+            history.replace('/confirmation');
         }
     } catch (error) {
         dispatch(postOrderFail());
