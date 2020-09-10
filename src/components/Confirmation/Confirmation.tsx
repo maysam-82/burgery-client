@@ -4,6 +4,8 @@ import { Redirect } from 'react-router-dom';
 import history from '../../history';
 
 import classes from './confirmation.module.scss';
+import { IStoreState } from '../../redux/reducers';
+import { connect } from 'react-redux';
 
 interface IConfirmationProps {
     orderNumber: string;
@@ -30,4 +32,8 @@ function Confirmation({ orderNumber }: IConfirmationProps) {
     );
 }
 
-export default Confirmation;
+const mapStateToProps = (state: IStoreState) => ({
+    orderNumber: state.orders.orderNumber,
+});
+
+export default connect(mapStateToProps)(Confirmation);

@@ -5,11 +5,13 @@ import { tramsformOrders } from './utils';
 export interface IOrdersState {
     orders: IOrder[];
     isLoading: boolean;
+    orderNumber: string;
 }
 
 const initialState: IOrdersState = {
     orders: [],
     isLoading: false,
+    orderNumber: '',
 };
 
 const orderReducer = (state = initialState, action: OrderActions) => {
@@ -18,7 +20,11 @@ const orderReducer = (state = initialState, action: OrderActions) => {
         case ActionTypes.FETCH_ORDERS_START:
             return { ...state, isLoading: true };
         case ActionTypes.POST_ORDERS_SUCCESS:
-            return { ...state, isLoading: false };
+            return {
+                ...state,
+                isLoading: false,
+                orderNumber: action.payload.name,
+            };
         case ActionTypes.FETCH_ORDERS_SUCCESS:
             return {
                 ...state,
