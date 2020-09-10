@@ -5,6 +5,7 @@ import Checkout from '../../container/Checkout';
 import { Route, Switch } from 'react-router-dom';
 import Orders from '../../container/Orders';
 import Confirmation from '../Confirmation/Confirmation';
+import Authentication from '../../container/Authentication/Authentication';
 
 import classes from './App.module.scss';
 
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/confirmation" component={Confirmation} />
                     <Route path="/checkout" component={Checkout} />
                     <Route path="/orders" component={Orders} />
+                    <Route path="/auth" component={Authentication} />
                     <Route path="/" exact component={BurgerBuilder} />
                 </Switch>
             </Layout>
