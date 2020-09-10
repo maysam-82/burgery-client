@@ -106,8 +106,9 @@ class ContactData extends Component<IContactDataProps, IContactDataState> {
                         );
                     }
                 )}
-
-                <Button type="danger">ORDER</Button>
+                <div className={classes.buttonContainer}>
+                    <Button type="danger">ORDER</Button>
+                </div>
             </form>
         );
 
