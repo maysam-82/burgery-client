@@ -10,16 +10,21 @@ const withErrorHandler = <P extends object>(
     axios: AxiosInstance
 ) => (props: P) => {
     const [error, setError] = useState<{ [key: string]: string } | null>(null);
-
     const requestInterceptor = axios.interceptors.request.use((request) => {
         setError(null);
         return request;
     });
 
     const responseInterceptor = axios.interceptors.response.use(
-        (response) => response,
+        (response) => {
+            return response;
+        },
         (err) => {
-            setError(err);
+            if (err.response.data) {
+                setError(err.response.data.error);
+            } else {
+                setError(err);
+            }
         }
     );
 
@@ -29,7 +34,6 @@ const withErrorHandler = <P extends object>(
             axios.interceptors.response.eject(responseInterceptor);
         };
     }, [requestInterceptor, responseInterceptor]);
-
     return (
         <Fragment>
             <Modal isShown={!!error} handleModalClose={() => setError(null)}>
