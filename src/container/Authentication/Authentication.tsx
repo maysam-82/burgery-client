@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import axiosAuthInstance from '../../services/api/axiosAuth';
 import Spinner from '../../components/Spinner/Spinner';
 import { RouteComponentProps } from 'react-router-dom';
+import { setAuthMethod } from '../../utils/auth';
 
 import classes from './authentication.module.scss';
 
@@ -75,7 +76,11 @@ class Authentication extends Component<
             console.error('Password length must be greater than or equal to 6');
             return;
         }
-        this.props.auth(emailValue, passwordValue);
+        this.props.auth(
+            emailValue,
+            passwordValue,
+            setAuthMethod(this.props.location.pathname)
+        );
     };
 
     render() {
@@ -119,7 +124,7 @@ class Authentication extends Component<
         );
         return (
             <div className={classes.authContainer}>
-                {this.props.isLoading ? <Spinner /> : renderForm}
+                {isLoading ? <Spinner /> : renderForm}
             </div>
         );
     }

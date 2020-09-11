@@ -27,6 +27,8 @@ export interface IAuthDataResponse {
     email: string;
     kind: string;
     localId: string;
+    displayName?: string;
+    registered?: string;
 }
 
 export const authStart = (): IAuthStart => ({
@@ -41,7 +43,7 @@ export const authFail = (error: string): IAuthFail => ({
     payload: error,
 });
 
-export const auth = (email: string, password: string) => {
+export const auth = (email: string, password: string, autMethod: string) => {
     return async (dispatch: Dispatch) => {
         dispatch(authStart());
         const authData: IAuthDataRequest = {
@@ -49,14 +51,18 @@ export const auth = (email: string, password: string) => {
             password,
             returnSecureToken: true,
         };
+        const baseAuthUrl =
+            'https://identitytoolkit.googleapis.com/v1/accounts:';
+        const url =
+            autMethod === 'register'
+                ? `${baseAuthUrl}signUp?key=${process.env.REACT_APP_API_KEY}`
+                : `${baseAuthUrl}signInWithPassword?key=${process.env.REACT_APP_API_KEY}`;
+
         try {
             const response = await postAuthData<
                 IAuthDataRequest,
                 IAuthDataResponse
-            >(
-                `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_API_KEY}`,
-                authData
-            );
+            >(url, authData);
             dispatch(authSuccess(response));
             history.push('/');
         } catch (error) {

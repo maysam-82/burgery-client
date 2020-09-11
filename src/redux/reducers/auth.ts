@@ -19,7 +19,13 @@ export const authReducer = (state = initialState, action: AuthActions) => {
         case ActionTypes.AUTH_START:
             return { ...state, isLoading: true, error: '' };
         case ActionTypes.AUTH_FAIL:
-            return { ...state, isLoading: false, error: action.payload };
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload,
+                isAuthenticated: false,
+                token: '',
+            };
         case ActionTypes.AUTH_SUCCESS:
             const { payload } = action;
             return {
