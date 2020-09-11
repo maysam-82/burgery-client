@@ -15,9 +15,10 @@ import { auth } from '../../redux/actions/auth';
 import { IStoreState } from '../../redux/reducers';
 import { connect } from 'react-redux';
 import axiosAuthInstance from '../../services/api/axiosAuth';
+import Spinner from '../../components/Spinner/Spinner';
+import { RouteComponentProps } from 'react-router-dom';
 
 import classes from './authentication.module.scss';
-import Spinner from '../../components/Spinner/Spinner';
 
 interface IAuthenticationState {
     formData: ILoginFormData;
@@ -35,10 +36,10 @@ interface IAuthenticationProps {
 }
 
 class Authentication extends Component<
-    IAuthenticationProps,
+    IAuthenticationProps & RouteComponentProps,
     IAuthenticationState
 > {
-    constructor(props: IAuthenticationProps) {
+    constructor(props: IAuthenticationProps & RouteComponentProps) {
         super(props);
 
         this.state = {
@@ -78,6 +79,7 @@ class Authentication extends Component<
     };
 
     render() {
+        const { location, isLoading } = this.props;
         const { formData } = this.state;
         const formControls: ILoginFormControl[] = [];
         for (const key in formData) {
@@ -106,7 +108,9 @@ class Authentication extends Component<
                     }
                 )}
                 <div className={classes.buttonContainer}>
-                    <Button type="success">SIGN UP</Button>
+                    <Button type="success">
+                        {location.pathname === '/login' ? 'SIGN IN' : 'SIGN UP'}
+                    </Button>
                     <Button type="cancel" handleClick={() => history.push('/')}>
                         CANCEL
                     </Button>
@@ -127,5 +131,8 @@ const mapStateToProps = (state: IStoreState) => ({
 });
 
 export default connect(mapStateToProps, { auth })(
-    WithErrorHandler<IAuthenticationProps>(Authentication, axiosAuthInstance)
+    WithErrorHandler<IAuthenticationProps & RouteComponentProps>(
+        Authentication,
+        axiosAuthInstance
+    )
 );

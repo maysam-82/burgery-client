@@ -8,7 +8,8 @@ function NavigationItems() {
         <ul className={classes.navigationItemsContainer}>
             <NavigationItem route="/">Burgery Home</NavigationItem>
             <NavigationItem route="/orders">Orders</NavigationItem>
-            <NavigationItem route="/auth">Sign Up</NavigationItem>
+            <NavigationItem route="/register">Sign Up</NavigationItem>
+            <NavigationItem route="/login">Sign In</NavigationItem>
         </ul>
     );
 }

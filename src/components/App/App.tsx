@@ -16,8 +16,9 @@ function App() {
                 <Switch>
                     <Route path="/confirmation" component={Confirmation} />
                     <Route path="/checkout" component={Checkout} />
+                    <Route path="/register" component={Authentication} />
                     <Route path="/orders" component={Orders} />
-                    <Route path="/auth" component={Authentication} />
+                    <Route path="/login" component={Authentication} />
                     <Route path="/" exact component={BurgerBuilder} />
                 </Switch>
             </Layout>
