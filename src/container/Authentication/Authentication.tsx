@@ -16,10 +16,10 @@ import { IStoreState } from '../../redux/reducers';
 import { connect } from 'react-redux';
 import axiosAuthInstance from '../../services/api/axiosAuth';
 
-import classes from './register.module.scss';
+import classes from './authentication.module.scss';
 import Spinner from '../../components/Spinner/Spinner';
 
-interface IRegisterState {
+interface IAuthenticationState {
     formData: ILoginFormData;
 }
 
@@ -28,14 +28,17 @@ interface ILoginFormControl {
     element: IFormElement<IInputConfig>;
 }
 
-interface IRegisterProps {
+interface IAuthenticationProps {
     isLoading: boolean;
     auth: Function;
     error: string;
 }
 
-class Register extends Component<IRegisterProps, IRegisterState> {
-    constructor(props: IRegisterProps) {
+class Authentication extends Component<
+    IAuthenticationProps,
+    IAuthenticationState
+> {
+    constructor(props: IAuthenticationProps) {
         super(props);
 
         this.state = {
@@ -124,5 +127,5 @@ const mapStateToProps = (state: IStoreState) => ({
 });
 
 export default connect(mapStateToProps, { auth })(
-    WithErrorHandler<IRegisterProps>(Register, axiosAuthInstance)
+    WithErrorHandler<IAuthenticationProps>(Authentication, axiosAuthInstance)
 );
