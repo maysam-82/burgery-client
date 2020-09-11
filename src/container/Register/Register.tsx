@@ -5,11 +5,21 @@ import { loginFormData } from '../../data/authData';
 import { ILoginFormData } from '../../types/auth';
 import { IInputConfig, IFormElement } from '../../types/orders';
 import history from '../../history';
+import {
+    handleControlUpdate,
+    validateEmail,
+    validatePassword,
+} from '../../utils/form';
+import WithErrorHandler from '../../HOC/WithErrorHandler/WithErrorHandler';
+import { auth } from '../../redux/actions/auth';
+import { IStoreState } from '../../redux/reducers';
+import { connect } from 'react-redux';
+import axiosAuthInstance from '../../services/api/axiosAuth';
 
-import classes from './authentication.module.scss';
-import { handleControlUpdate } from '../../utils/form';
+import classes from './register.module.scss';
+import Spinner from '../../components/Spinner/Spinner';
 
-interface IAuthenticationState {
+interface IRegisterState {
     formData: ILoginFormData;
 }
 
@@ -18,8 +28,14 @@ interface ILoginFormControl {
     element: IFormElement<IInputConfig>;
 }
 
-class Authentication extends Component<{}, IAuthenticationState> {
-    constructor(props: {}) {
+interface IRegisterProps {
+    isLoading: boolean;
+    auth: Function;
+    error: string;
+}
+
+class Register extends Component<IRegisterProps, IRegisterState> {
+    constructor(props: IRegisterProps) {
         super(props);
 
         this.state = {
@@ -40,6 +56,22 @@ class Authentication extends Component<{}, IAuthenticationState> {
 
     handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        const {
+            email: { value: emailValue },
+            password: { value: passwordValue },
+        } = this.state.formData;
+        const isEmailValid = validateEmail(emailValue);
+        const isPasswordValid = validatePassword(passwordValue);
+        // TODO: Adding UI Toast for validation
+        if (!isEmailValid) {
+            console.error('Invalid Email');
+            return;
+        }
+        if (!isPasswordValid) {
+            console.error('Password length must be greater than or equal to 6');
+            return;
+        }
+        this.props.auth(emailValue, passwordValue);
     };
 
     render() {
@@ -78,8 +110,19 @@ class Authentication extends Component<{}, IAuthenticationState> {
                 </div>
             </form>
         );
-        return <div className={classes.authContainer}>{renderForm}</div>;
+        return (
+            <div className={classes.authContainer}>
+                {this.props.isLoading ? <Spinner /> : renderForm}
+            </div>
+        );
     }
 }
 
-export default Authentication;
+const mapStateToProps = (state: IStoreState) => ({
+    isLoading: state.auth.isLoading,
+    error: state.auth.error,
+});
+
+export default connect(mapStateToProps, { auth })(
+    WithErrorHandler<IRegisterProps>(Register, axiosAuthInstance)
+);
