@@ -5,6 +5,7 @@ export interface IAuthState {
     isAuthenticated: boolean;
     token: string;
     error: string;
+    userId: string;
 }
 
 const initialState: IAuthState = {
@@ -12,6 +13,7 @@ const initialState: IAuthState = {
     isAuthenticated: false,
     token: '',
     error: '',
+    userId: '',
 };
 
 export const authReducer = (state = initialState, action: AuthActions) => {
@@ -24,6 +26,7 @@ export const authReducer = (state = initialState, action: AuthActions) => {
                 isLoading: false,
                 error: action.payload,
                 isAuthenticated: false,
+                userId: '',
                 token: '',
             };
         case ActionTypes.AUTH_SUCCESS:
@@ -33,6 +36,7 @@ export const authReducer = (state = initialState, action: AuthActions) => {
                 isLoading: false,
                 error: '',
                 token: payload.idToken,
+                userId: payload.localId,
                 isAuthenticated: true,
             };
 
