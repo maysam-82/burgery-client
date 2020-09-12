@@ -37,7 +37,7 @@ const withErrorHandler = <P extends object>(
     return (
         <Fragment>
             <Modal isShown={!!error} handleModalClose={() => setError(null)}>
-                {error ? error.message : null}
+                {error ? (error.message ? error.message : error) : null}
             </Modal>
             <WrappedComponent {...(props as P)} />
         </Fragment>
