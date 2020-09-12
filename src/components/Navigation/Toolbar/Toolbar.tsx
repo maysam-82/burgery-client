@@ -6,9 +6,10 @@ import classes from './toolbar.module.scss';
 
 interface IToolbarProps {
     onMenuClick: () => void;
+    isAuthenticated: boolean;
 }
 
-function Toolbar({ onMenuClick }: IToolbarProps) {
+function Toolbar({ onMenuClick, isAuthenticated }: IToolbarProps) {
     return (
         <header className={classes.toolbarContainer}>
             <div className={classes.menuContainer} onClick={onMenuClick}>
@@ -18,7 +19,7 @@ function Toolbar({ onMenuClick }: IToolbarProps) {
                 <Logo />
             </div>
             <nav className={classes.navDesktop}>
-                <NavigationItems />
+                <NavigationItems isAuthenticated={isAuthenticated} />
             </nav>
         </header>
     );

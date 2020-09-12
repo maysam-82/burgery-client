@@ -1,10 +1,14 @@
 import React, { Fragment, Component } from 'react';
-import classes from './layout.module.scss';
+import { connect } from 'react-redux';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
+import classes from './layout.module.scss';
+import { IStoreState } from '../../redux/reducers';
+
 interface ILayoutProps {
     children: React.ReactNode;
+    isAuthenticated: boolean;
 }
 
 interface ILayoutState {
@@ -30,12 +34,17 @@ class Layout extends Component<ILayoutProps, ILayoutState> {
 
     render() {
         const { isDrawerShown } = this.state;
+        const { isAuthenticated } = this.props;
         return (
             <Fragment>
-                <Toolbar onMenuClick={this.handleSideDrawerOpen} />
+                <Toolbar
+                    onMenuClick={this.handleSideDrawerOpen}
+                    isAuthenticated={isAuthenticated}
+                />
                 <SideDrawer
                     onCloseDrawer={this.handleSideDrawerClose}
                     isDrawerShown={isDrawerShown}
+                    isAuthenticated={isAuthenticated}
                 />
                 <main className={classes.layoutMain}>
                     {this.props.children}
@@ -45,4 +54,8 @@ class Layout extends Component<ILayoutProps, ILayoutState> {
     }
 }
 
-export default Layout;
+const mapStateToProps = (state: IStoreState) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(Layout);
