@@ -27,6 +27,7 @@ interface IContactDataProps {
     totalPrice: number;
     postOrder: Function;
     isLoading: boolean;
+    token: string;
 }
 
 interface IContactDataState {
@@ -57,7 +58,7 @@ class ContactData extends Component<IContactDataProps, IContactDataState> {
         for (const key in this.state.formData) {
             order[key] = this.state.formData[key].value;
         }
-        this.props.postOrder(order);
+        this.props.postOrder(order, this.props.token);
     };
 
     handleSelectChange = ({
@@ -115,6 +116,7 @@ class ContactData extends Component<IContactDataProps, IContactDataState> {
 
 const mapStateToProps = (state: IStoreState) => ({
     isLoading: state.orders.isLoading,
+    token: state.auth.token,
 });
 
 export default connect(mapStateToProps, { postOrder })(
