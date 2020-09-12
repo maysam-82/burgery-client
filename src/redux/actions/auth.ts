@@ -31,6 +31,9 @@ export interface IAuthDataResponse {
     registered?: string;
 }
 
+export interface IAuthLogout {
+    type: ActionTypes.AUTH_LOGOUT;
+}
 export const authStart = (): IAuthStart => ({
     type: ActionTypes.AUTH_START,
 });
@@ -41,6 +44,10 @@ export const authSuccess = (authResponse: IAuthDataResponse): IAuthSuccess => ({
 export const authFail = (error: string): IAuthFail => ({
     type: ActionTypes.AUTH_FAIL,
     payload: error,
+});
+
+export const authLogout = (): IAuthLogout => ({
+    type: ActionTypes.AUTH_LOGOUT,
 });
 
 export const auth = (email: string, password: string, autMethod: string) => {
@@ -64,6 +71,14 @@ export const auth = (email: string, password: string, autMethod: string) => {
                 IAuthDataResponse
             >(url, authData);
             dispatch(authSuccess(response));
+
+            // when timer reached to expiresIn value, authLogout will be dispatched to logout user.
+            if (response.expiresIn) {
+                window.setTimeout(() => {
+                    dispatch(authLogout());
+                }, parseInt(response.expiresIn) * 1000);
+            }
+
             history.push('/');
         } catch (error) {
             const errorMessage = error.message;

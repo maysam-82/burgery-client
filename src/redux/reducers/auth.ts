@@ -39,7 +39,8 @@ export const authReducer = (state = initialState, action: AuthActions) => {
                 userId: payload.localId,
                 isAuthenticated: true,
             };
-
+        case ActionTypes.AUTH_LOGOUT:
+            return { ...state, token: '', userId: '', isAuthenticated: false };
         default:
             return state;
     }
