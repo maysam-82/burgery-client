@@ -13,27 +13,25 @@ interface IOrdersProps {
     isLoading: boolean;
     fetchOrders: Function;
     token: string;
+    userId: string;
 }
 
 class Orders extends Component<IOrdersProps> {
     componentDidMount() {
-        this.props.fetchOrders(this.props.token);
+        const { token, userId } = this.props;
+        this.props.fetchOrders(token, userId);
     }
 
     render() {
         const { orders, isLoading } = this.props;
-        const renderOrders =
-            !isLoading && orders.length > 0 ? (
-                orders.map(({ id, ingredients, totalPrice }) => (
-                    <Order
-                        key={id}
-                        ingredients={ingredients}
-                        price={totalPrice}
-                    />
-                ))
-            ) : (
-                <Spinner />
-            );
+
+        const renderOrders = !isLoading ? (
+            orders.map(({ id, ingredients, totalPrice }) => (
+                <Order key={id} ingredients={ingredients} price={totalPrice} />
+            ))
+        ) : (
+            <Spinner />
+        );
         return <div>{renderOrders}</div>;
     }
 }
@@ -42,6 +40,7 @@ const mapStateToProps = (state: IStoreState) => ({
     orders: state.orders.orders,
     isLoading: state.orders.isLoading,
     token: state.auth.token,
+    userId: state.auth.userId,
 });
 
 export default connect(mapStateToProps, { fetchOrders })(
