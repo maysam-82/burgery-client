@@ -14,7 +14,13 @@ import {
     IFetchOrderSuccess,
     IFetchOrderStart,
 } from './orders';
-import { IAuthFail, IAuthSuccess, IAuthStart, IAuthLogout } from './auth';
+import {
+    IAuthFail,
+    IAuthSuccess,
+    IAuthStart,
+    IAuthLogout,
+    IUserInfoSuccess,
+} from './auth';
 
 export enum ActionTypes {
     FETCH_INGREDIENTS_START,
@@ -51,4 +57,9 @@ export type OrderActions =
     | IFetchOrderFail
     | IFetchOrderStart;
 
-export type AuthActions = IAuthFail | IAuthSuccess | IAuthStart | IAuthLogout;
+export type AuthActions =
+    | IAuthFail
+    | IAuthSuccess
+    | IAuthStart
+    | IAuthLogout
+    | IUserInfoSuccess;
