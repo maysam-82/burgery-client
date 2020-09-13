@@ -23,6 +23,7 @@ interface IBurgerBuilderProps {
     updateIngredients: typeof updateIngredients;
     setBurgerOrder: typeof setBurgerOrder;
     burger: IBurgerBuilder;
+    isAuthenticated: boolean;
 }
 
 class BurgerBuilder extends Component<IBurgerBuilderProps> {
@@ -37,6 +38,14 @@ class BurgerBuilder extends Component<IBurgerBuilderProps> {
         history.push('/checkout');
     };
 
+    handleOrderNow = (hasOrder: boolean) => {
+        if (this.props.isAuthenticated) {
+            this.props.setBurgerOrder(hasOrder);
+        } else {
+            history.push('/login');
+        }
+    };
+
     render() {
         const {
             burger: {
@@ -46,6 +55,7 @@ class BurgerBuilder extends Component<IBurgerBuilderProps> {
                 purchasable,
                 isOrdered,
             },
+            isAuthenticated,
         } = this.props;
         const renderOrderSummary =
             isLoading || !ingredients ? (
@@ -53,7 +63,7 @@ class BurgerBuilder extends Component<IBurgerBuilderProps> {
             ) : (
                 <OrderSummary
                     ingredients={ingredients}
-                    handleCancel={() => this.props.setBurgerOrder(false)}
+                    handleCancel={() => this.handleOrderNow(false)}
                     handleContinue={this.handlePurchaseContinue}
                     price={totalPrice}
                 />
@@ -70,7 +80,8 @@ class BurgerBuilder extends Component<IBurgerBuilderProps> {
                         }
                         price={totalPrice}
                         purchasable={purchasable}
-                        handleOrder={() => this.props.setBurgerOrder(true)}
+                        handleOrder={() => this.handleOrderNow(true)}
+                        isAuthenticated={isAuthenticated}
                     />
                 </Fragment>
             );
@@ -78,7 +89,7 @@ class BurgerBuilder extends Component<IBurgerBuilderProps> {
             <Fragment>
                 <Modal
                     isShown={isOrdered}
-                    handleModalClose={() => this.props.setBurgerOrder(false)}
+                    handleModalClose={() => this.handleOrderNow(false)}
                 >
                     {renderOrderSummary}
                 </Modal>
@@ -92,6 +103,7 @@ class BurgerBuilder extends Component<IBurgerBuilderProps> {
 
 const mapStateToProps = (state: IStoreState) => ({
     burger: state.burger,
+    isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, {
