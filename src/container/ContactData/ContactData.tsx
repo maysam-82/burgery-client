@@ -28,6 +28,7 @@ interface IContactDataProps {
     postOrder: Function;
     isLoading: boolean;
     token: string;
+    userId: string;
 }
 
 interface IContactDataState {
@@ -50,10 +51,11 @@ class ContactData extends Component<IContactDataProps, IContactDataState> {
 
     handleSubmitOrder = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const { ingredients, totalPrice } = this.props;
+        const { ingredients, totalPrice, userId } = this.props;
         const order: IOrder = {
             ingredients,
             totalPrice,
+            userId,
         };
         for (const key in this.state.formData) {
             order[key] = this.state.formData[key].value;
@@ -117,6 +119,7 @@ class ContactData extends Component<IContactDataProps, IContactDataState> {
 const mapStateToProps = (state: IStoreState) => ({
     isLoading: state.orders.isLoading,
     token: state.auth.token,
+    userId: state.auth.userId,
 });
 
 export default connect(mapStateToProps, { postOrder })(

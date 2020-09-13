@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Layout from '../Layout/Layout';
 import BurgerBuilder from '../BurgerBuilder/BurgerBuilder';
 import Checkout from '../Checkout/Checkout';
@@ -10,11 +11,8 @@ import Logout from '../Logout/Logout';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import NotFound from '../../components/NotFound/NotFound';
 import { authCheckState } from '../../redux/actions/auth';
-import WithErrorHandler from '../../HOC/WithErrorHandler';
-import axiosAuthInstance from '../../services/api/axiosAuth';
 
 import classes from './App.module.scss';
-import { connect } from 'react-redux';
 
 interface IAppProps {
     authCheckState: Function;
@@ -45,6 +43,4 @@ class App extends Component<IAppProps> {
     }
 }
 
-export default connect(null, { authCheckState })(
-    WithErrorHandler<IAppProps>(App, axiosAuthInstance)
-);
+export default connect(null, { authCheckState })(App);

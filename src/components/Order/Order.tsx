@@ -12,13 +12,13 @@ function Order({ ingredients, price }: IOrderProps) {
     const ingredientsArray = getIngredientsArray(ingredients);
     const renderIngredients = ingredientsArray.map(({ name, amount }) => (
         <span key={name} className={classes.ingredientContainer}>
-            {name} ({amount})
+            {name}: {amount}
         </span>
     ));
     return (
         <div className={classes.orderContainer}>
-            Ingredients:
-            {renderIngredients}
+            <div>Ingredients:</div>
+            <div className={classes.ingredientsDetail}>{renderIngredients}</div>
             <p>
                 Price <strong>$ {price.toFixed(2)}</strong>
             </p>

@@ -9,6 +9,7 @@ export interface IOrder {
     email?: string;
     deliveryMethod?: string;
     id?: string;
+    userId: string;
 }
 
 export interface IIngredient {

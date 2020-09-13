@@ -81,11 +81,14 @@ export const postOrder = (order: IOrder, token: string) => async (
     }
 };
 
-export const fetchOrders = (token: string) => async (dispatch: Dispatch) => {
+export const fetchOrders = (token: string, userId: string) => async (
+    dispatch: Dispatch
+) => {
     dispatch(fetchOrdersStart());
     try {
+        const queryParams = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`;
         const orders = await getData<IServerOrders>(
-            `/orders.json?auth=${token}`
+            `/orders.json${queryParams}`
         );
         dispatch(fetchOrdersSuccess(orders));
     } catch (error) {
