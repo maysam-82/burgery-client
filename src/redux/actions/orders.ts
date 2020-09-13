@@ -62,11 +62,13 @@ const fetchOrdersSuccess = (orders: IServerOrders): IFetchOrderSuccess => ({
     payload: orders,
 });
 
-export const postOrder = (order: IOrder) => async (dispatch: Dispatch) => {
+export const postOrder = (order: IOrder, token: string) => async (
+    dispatch: Dispatch
+) => {
     dispatch(postOrderStart());
     try {
         const data = await postData<IOrder, IPostOrderResponse>(
-            '/orders.json',
+            `/orders.json?auth=${token}`,
             order
         );
         if (data) {
@@ -79,10 +81,12 @@ export const postOrder = (order: IOrder) => async (dispatch: Dispatch) => {
     }
 };
 
-export const fetchOrders = () => async (dispatch: Dispatch) => {
+export const fetchOrders = (token: string) => async (dispatch: Dispatch) => {
     dispatch(fetchOrdersStart());
     try {
-        const orders = await getData<IServerOrders>('/orders.json');
+        const orders = await getData<IServerOrders>(
+            `/orders.json?auth=${token}`
+        );
         dispatch(fetchOrdersSuccess(orders));
     } catch (error) {
         dispatch(fetchOrdersFail());

@@ -9,6 +9,7 @@ interface IBurgerControlsProps {
     price: number;
     purchasable: boolean;
     handleOrder: () => void;
+    isAuthenticated: boolean;
 }
 
 function BurgerControls({
@@ -16,6 +17,7 @@ function BurgerControls({
     price,
     purchasable,
     handleOrder,
+    isAuthenticated,
 }: IBurgerControlsProps) {
     const renderControls = controls.map(({ id, label, type }) => (
         <BurgerControl
@@ -37,7 +39,8 @@ function BurgerControls({
                     disabled={!purchasable}
                     onClick={handleOrder}
                 >
-                    ORDER NOW! <i className="fas fa-hamburger"></i>
+                    {isAuthenticated ? 'ORDER NOW!' : 'SIGN UP TO ORDER'}{' '}
+                    <i className="fas fa-hamburger"></i>
                 </button>
             </div>
         </div>

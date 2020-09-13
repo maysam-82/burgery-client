@@ -17,15 +17,17 @@ import {
 } from '../../types/orders';
 import WithErrorHandler from '../../HOC/WithErrorHandler';
 import { postOrder } from '../../redux/actions/orders';
+import { IStoreState } from '../../redux/reducers';
+import { handleControlUpdate } from '../../utils/form';
 
 import classes from './contactData.module.scss';
-import { IStoreState } from '../../redux/reducers';
 
 interface IContactDataProps {
     ingredients: IIngredients | null;
     totalPrice: number;
     postOrder: Function;
     isLoading: boolean;
+    token: string;
 }
 
 interface IContactDataState {
@@ -56,27 +58,18 @@ class ContactData extends Component<IContactDataProps, IContactDataState> {
         for (const key in this.state.formData) {
             order[key] = this.state.formData[key].value;
         }
-        this.props.postOrder(order);
-    };
-
-    handleInputChange = ({
-        target: { name, value },
-    }: React.ChangeEvent<HTMLInputElement>) => {
-        this.handleControlUpdate(name, value);
+        this.props.postOrder(order, this.props.token);
     };
 
     handleSelectChange = ({
         target: { name, value },
     }: React.ChangeEvent<HTMLSelectElement>) => {
-        this.handleControlUpdate(name, value);
-    };
-
-    handleControlUpdate = (name: string, value: string) => {
-        const clonedFormData = { ...this.state.formData };
-        const clonedFormElement = { ...clonedFormData[name] };
-        clonedFormElement.value = value;
-        clonedFormData[name] = clonedFormElement;
-        this.setState({ formData: clonedFormData });
+        const newFormData = handleControlUpdate<IFormData>(
+            this.state.formData,
+            name,
+            value
+        );
+        this.setState({ formData: newFormData });
     };
 
     render() {
@@ -123,6 +116,7 @@ class ContactData extends Component<IContactDataProps, IContactDataState> {
 
 const mapStateToProps = (state: IStoreState) => ({
     isLoading: state.orders.isLoading,
+    token: state.auth.token,
 });
 
 export default connect(mapStateToProps, { postOrder })(

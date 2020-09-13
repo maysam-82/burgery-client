@@ -12,11 +12,12 @@ interface IOrdersProps {
     orders: IOrder[];
     isLoading: boolean;
     fetchOrders: Function;
+    token: string;
 }
 
 class Orders extends Component<IOrdersProps> {
     componentDidMount() {
-        this.props.fetchOrders();
+        this.props.fetchOrders(this.props.token);
     }
 
     render() {
@@ -40,6 +41,7 @@ class Orders extends Component<IOrdersProps> {
 const mapStateToProps = (state: IStoreState) => ({
     orders: state.orders.orders,
     isLoading: state.orders.isLoading,
+    token: state.auth.token,
 });
 
 export default connect(mapStateToProps, { fetchOrders })(

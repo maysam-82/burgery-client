@@ -7,9 +7,14 @@ import Backdrop from '../../Backdrop/Backdrop';
 interface IDrawerProps {
     onCloseDrawer: () => void;
     isDrawerShown: boolean;
+    isAuthenticated: boolean;
 }
 
-function SideDrawer({ onCloseDrawer, isDrawerShown }: IDrawerProps) {
+function SideDrawer({
+    onCloseDrawer,
+    isDrawerShown,
+    isAuthenticated,
+}: IDrawerProps) {
     const sideDrawerClasses = [
         classes.sideDrawerContainer,
         isDrawerShown ? classes.sideDrawerOpen : classes.sideDrawerClose,
@@ -24,7 +29,7 @@ function SideDrawer({ onCloseDrawer, isDrawerShown }: IDrawerProps) {
                     <span className={classes.logoTitle}>Sample Burgery</span>
                 </div>
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems isAuthenticated={isAuthenticated} />
                 </nav>
             </div>
         </Fragment>

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { IIngredients } from '../../types/ingredients';
 import classes from './orderSummary.module.scss';
 import Button from '../Button';
@@ -30,7 +30,7 @@ function OrderSummary({
     };
 
     return (
-        <Fragment>
+        <div>
             <h3 className={classes.title}>Your Order</h3>
             <p>A delicious burger with the following ingredients:</p>
             <ul className={classes.orderIngredients}>
@@ -46,7 +46,7 @@ function OrderSummary({
                     CANCEL <i className="fas fa-strikethrough"></i>
                 </Button>
             </div>
-        </Fragment>
+        </div>
     );
 }
 
