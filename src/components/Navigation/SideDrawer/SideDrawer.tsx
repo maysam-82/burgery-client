@@ -23,7 +23,10 @@ function SideDrawer({
     return (
         <Fragment>
             <Backdrop isShown={isDrawerShown} handleClick={onCloseDrawer} />
-            <div className={sideDrawerClasses.join(' ')}>
+            <div
+                className={sideDrawerClasses.join(' ')}
+                onClick={onCloseDrawer}
+            >
                 <div className={classes.logoContainer}>
                     <Logo />
                     <span className={classes.logoTitle}>Sample Burgery</span>
