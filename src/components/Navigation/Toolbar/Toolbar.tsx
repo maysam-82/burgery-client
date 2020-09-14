@@ -17,6 +17,14 @@ function Toolbar({ onMenuClick, isAuthenticated }: IToolbarProps) {
             </div>
             <div className={classes.toolbarLogoContainer}>
                 <Logo />
+                <div>
+                    <span className={classes.developer}>
+                        Sample burgery App.
+                    </span>
+                    <span className={classes.developer}>
+                        Maysam Abolghasemi
+                    </span>
+                </div>
             </div>
             <nav className={classes.navDesktop}>
                 <NavigationItems isAuthenticated={isAuthenticated} />
